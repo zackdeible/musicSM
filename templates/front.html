@@ -1,0 +1,55 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Title -->
+  <title>BudUp</title>
+
+  <meta name="Description" content="Cross platform for music.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static "images/all/logo.png" %}">
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- CSS Front Template -->
+
+  <link rel="stylesheet" href="{% static "assets/vendor/font-awesome/css/fontawesome-all.min.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
+  <link rel="stylesheet" href="{% static "assets/css/theme.css" %}">
+
+  <!-- GOOGLE FONTS -->
+  <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+  <!-- END GOOGLE FONTS -->
+
+
+  {% block links %}
+  {% endblock links %}
+
+
+</head>
+
+
+<body>
+
+	{% block body %}
+
+	{% endblock body %}
+
+  	<!-- JS Global Compulsory -->
+	<script src="{% static "assets/vendor/jquery/dist/jquery.min.js" %}"></script>
+	<script src="{% static "assets/vendor/jquery-migrate/dist/jquery-migrate.min.js" %}"></script>
+	<script src="{% static "assets/vendor/popper.js/dist/umd/popper.min.js" %}"></script>
+	<script src="{% static "assets/vendor/bootstrap/bootstrap.min.js" %}"></script>
+	<script src="{% static "assets/js/hs.core.js" %}"></script>
+
+	{% block scripts %}
+
+  	{% endblock %}
+
+</body>
+
+</html>
