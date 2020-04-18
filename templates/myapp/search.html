@@ -11,14 +11,22 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-
-<h1>Search for your muzic</h1>
-<form action="" method="post">
+<h1>Search for artist</h1>
+<form action="/search" method="post">
   {% csrf_token %}
   <input type="text" name="search"  placeholder="Search">
   <input type="submit" value="Submit">
 
 </form>
+<hr>
+<p>
+  <ul>
+  {% for result in searchResults %}
+    <li>{{ result }}</li>
+  {% endfor %}
+  </ul>
+  {{ searchResults }}
+</p>
 
 {% endblock body %}
 
@@ -27,4 +35,5 @@
 
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
+
 {% endblock scripts %}
