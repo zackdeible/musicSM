@@ -21,8 +21,11 @@
 <hr>
 <p>
   <ul>
-  {% for result in searchResults %}
-    <li>{{ result }}</li>
+  {% for result in searchResults.tracks.items %}
+    <li>{{ result.album.name }}</li>
+    <li>{{ result.artists.0.name }}</li>
+    <li>{{ result.name }}</li>
+    <li>{{ result.preview_url }}</li>
   {% endfor %}
   </ul>
   {{ searchResults }}
