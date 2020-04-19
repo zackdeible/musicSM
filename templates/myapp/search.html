@@ -11,26 +11,54 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-<h1>Search for artist</h1>
-<form action="/search" method="post">
-  {% csrf_token %}
-  <input type="text" name="search"  placeholder="Search">
-  <input type="submit" value="Submit">
+<div class="container">
+  <h1>Search for artist</h1>
+  <form action="/search" method="post">
+    {% csrf_token %}
+    <input type="text" name="search"  placeholder="Search">
+    <input type="submit" value="Submit">
 
-</form>
-<hr>
-<p>
-  <ul>
-  {% for result in searchResults.tracks.items %}
-    <li>{{ result.album.name }}</li>
-    <li>{{ result.artists.0.name }}</li>
-    <li>{{ result.name }}</li>
-    <li>{{ result.preview_url }}</li>
-  {% endfor %}
-  </ul>
-  {{ searchResults }}
-</p>
+  </form>
+  <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h3>Album Name</h3>
+        </div>
+        <div class="col">
+          <h3>Artist Name</h3>
+        </div>
+        <div class="col">
+          <h3>Song Name</h3>
+        </div>
+        <div class="col">
+          <h3>Song Preview</h3>
+        </div>
+    </div>
+    <ul class="list-group" style="max-height:75vh; overflow:scroll">
+    {% for result in searchResults.tracks.items %}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col">
+            {{ result.album.name }}
+          </div>
+          <div class="col">
+            {{ result.artists.0.name }}
+          </div>
+          <div class="col">
+            {{ result.name }}
+          </div>
+          <div class="col">
+            <audio src="{{ result.preview_url }}" controls>
+              not supported
+            </audio>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
 
+</div>
 {% endblock body %}
 
 
