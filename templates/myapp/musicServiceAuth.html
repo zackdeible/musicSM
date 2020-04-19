@@ -5,8 +5,8 @@
 
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
-<link rel="stylesheet" href="../../assets/vendor/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="../../assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="{% static "assets/vendor/flatpickr/dist/flatpickr.min.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" %}">
 {% endblock links %}
 
 
@@ -2725,15 +2725,15 @@
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
 <!-- JS Implementing Plugins -->
-<script src="../../assets/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="../../assets/vendor/flatpickr/dist/flatpickr.min.js"></script>
-<script src="../../assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="{% static "assets/vendor/datatables/media/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "assets/vendor/flatpickr/dist/flatpickr.min.js" %}"></script>
+<script src="{% static "assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js" %}"></script>
 
 <!-- JS Front -->
-<script src="../../assets/js/helpers/hs.range-datepicker.js"></script>
-<script src="../../assets/js/helpers/hs.datatables.js"></script>
-<script src="../../assets/js/helpers/hs.selectpicker.js"></script>
-<script src="../../assets/js/components/hs.focus-state.js"></script>
+<script src="{% static "assets/js/helpers/hs.range-datepicker.js" %}"></script>
+<script src="{% static "assets/js/helpers/hs.datatables.js" %}"></script>
+<script src="{% static "assets/js/helpers/hs.selectpicker.js" %}"></script>
+<script src="{% static "assets/js/components/hs.focus-state.js" %}"></script>
 
 <!-- JS Plugins Init. -->
 <script>
