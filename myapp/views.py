@@ -8,10 +8,6 @@ token = ''
 
 # Create your views here.
 
-def playlists(request):
-    return render(request, 'myapp/playlists.html')
-
-
 
 def home(request):
     # Get the token code in the url
@@ -84,3 +80,6 @@ def search(request):
         #print(response.text.encode('utf8'))
 
     return render(request, 'myapp/search.html', {'searchResults':rjson})
+
+def playlists(request):
+    return render(request, 'myapp/playlists.html')
