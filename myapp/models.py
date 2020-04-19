@@ -8,6 +8,7 @@ class Track(models.Model):
     artist_name = models.CharField(max_length=500)
     album_pic = models.CharField(max_length=500)
     preview_url = models.CharField(max_length=500)
+    stream_url = models.CharField(max_length=500)
 
     def __str__(self):
         return self.track_name
