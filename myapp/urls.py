@@ -3,8 +3,10 @@ from . import views
 
 
 urlpatterns = [
+    path('playlists,', views.playlists, name='playlists'),
     path('search', views.search, name='search'),
     path('musicServiceAuth', views.musicServiceAuth, name='musicServiceAuth'),
     path('', views.home, name='home'),
-    path('testing', views.testing, name='testing'),
+    path('authRedirect', views.authRedirect, name='testing'),
+
 ]
