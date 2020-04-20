@@ -82,4 +82,11 @@ def search(request):
     return render(request, 'myapp/search.html', {'searchResults':rjson})
 
 def playlists(request):
+    if request.method == 'POST':
+
+        form = request.POST
+        posts = request.POST.get("playlist-name")
+        print("--------", posts)
+
+
     return render(request, 'myapp/playlists.html')

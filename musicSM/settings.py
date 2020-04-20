@@ -101,10 +101,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.spotify.SpotifyOAuth2'
+#AUTHENTICATION_BACKENDS = (
+    #'social_core.backends.spotify.SpotifyOAuth2'
 
-)
+#)
 
 SOCIAL_AUTH_SPOTIFY_KEY = 'a99685f835d240cb879158f2183ba000'
 SOCIAL_AUTH_SPOTIFY_SECRET = '82dfcc35d7c14ca79a8bc8b27f0bc330'
