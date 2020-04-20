@@ -11,7 +11,20 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-<h1>we made it bby</h1>
+
+<div class="container">
+
+  <h1>Create your Playlists!</h1>
+
+  <form action="/playlists/" method="post">
+    {% csrf_token %}
+    <input type="text" name="playlist-name" placeholder="Enter playlist name ">
+    <button type="submit" name="create-playlist">Create</button>
+  </form>
+
+</div>
+
+
 {% endblock body %}
 
 
