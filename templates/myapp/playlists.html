@@ -13,8 +13,25 @@
 <!-- PUT YOUR BODY IN HERE -->
 
 <div class="container">
+  <h2>Current Playlists</h2>
+  <div class="row">
+    <div class="col">
+      <h3>Playlist Name</h3>
+    </div>
+</div>
+<ul class="list-group" style="max-height:75vh; overflow:scroll">
+{% for playlist in playlists %}
+  <li class="list-group-item">
+    <div class="row">
+      <div class="col">
+        {{ playlist.playlist_name}}
+      </div>
+    </div>
+  </li>
+{% endfor %}
+</ul>
 
-  <h1>Create your Playlists!</h1>
+  <h2>Create New Playlist</h2>
 
   <form action="/playlists/" method="post">
     {% csrf_token %}

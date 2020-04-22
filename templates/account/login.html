@@ -1,0 +1,302 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<div class="container">
+  <div class="content-section">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button class="btn btn-outline-info" type="submit">Sign In</button>
+      </div>
+      <div class="form-group">
+
+      </div>
+    </form>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        Don't have an account? <a class="ml-2" href="{% url 'account-register' %}">Sign Up</a>
+      </small>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container">
+  <form class="js-validate">
+    <!-- Login -->
+    <div id="login" data-target-group="idForm">
+      <!-- Title -->
+      <header class="text-center mb-7">
+        <h2 class="h4 mb-0">Yo Yo!</h2>
+        <p>Login to join the music collab.</p>
+      </header>
+      <!-- End Title -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="signinEmail">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="signinEmailLabel">
+                <span class="fas fa-user"></span>
+              </span>
+            </div>
+            <input type="email" class="form-control" name="email" id="signinEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmailLabel" required
+                   data-msg="Please enter a valid email address."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Form Group -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="signinPassword">Password</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="signinPasswordLabel">
+                <span class="fas fa-lock"></span>
+              </span>
+            </div>
+            <input type="password" class="form-control" name="password" id="signinPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPasswordLabel" required
+                   data-msg="Your password is invalid. Please try again."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Form Group -->
+
+      <div class="d-flex justify-content-end mb-4">
+        <a class="js-animation-link small link-muted" href="javascript:;"
+           data-target="#forgotPassword"
+           data-link-group="idForm"
+           data-animation-in="slideInUp">Forgot Password?</a>
+      </div>
+
+      <div class="mb-2">
+        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Login</button>
+      </div>
+
+      <div class="text-center mb-4">
+        <small class="text-muted">
+          Don't have an account? <a class="ml-2" href="{% url 'account-register' %}">Sign Up</a>
+        </small>
+      </div>
+
+      <div class="text-center">
+        <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
+      </div>
+
+      <!-- Login Buttons -->
+      <div class="d-flex">
+        <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
+          <span class="fab fa-facebook-square mr-1"></span>
+          Facebook
+        </a>
+        <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
+          <span class="fab fa-google mr-1"></span>
+          Google
+        </a>
+      </div>
+      <!-- End Login Buttons -->
+    </div>
+
+    <!-- Signup -->
+    <div id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
+      <!-- Title -->
+      <header class="text-center mb-7">
+        <h2 class="h4 mb-0">Welcome to Front.</h2>
+        <p>Fill out the form to get started.</p>
+      </header>
+      <!-- End Title -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="signupEmail">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="signupEmailLabel">
+                <span class="fas fa-user"></span>
+              </span>
+            </div>
+            <input type="email" class="form-control" name="email" id="signupEmail" placeholder="Email" aria-label="Email" aria-describedby="signupEmailLabel" required
+                   data-msg="Please enter a valid email address."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Input -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="signupPassword">Password</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="signupPasswordLabel">
+                <span class="fas fa-lock"></span>
+              </span>
+            </div>
+            <input type="password" class="form-control" name="password" id="signupPassword" placeholder="Password" aria-label="Password" aria-describedby="signupPasswordLabel" required
+                   data-msg="Your password is invalid. Please try again."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Input -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="signupConfirmPassword">Confirm Password</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="signupConfirmPasswordLabel">
+                <span class="fas fa-key"></span>
+              </span>
+            </div>
+            <input type="password" class="form-control" name="confirmPassword" id="signupConfirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="signupConfirmPasswordLabel" required
+                   data-msg="Password does not match the confirm password."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Input -->
+
+      <div class="mb-2">
+        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Get Started</button>
+      </div>
+
+      <div class="text-center mb-4">
+        <span class="small text-muted">Already have an account?</span>
+        <a class="js-animation-link small" href="javascript:;"
+           data-target="#login"
+           data-link-group="idForm"
+           data-animation-in="slideInUp">Login
+        </a>
+      </div>
+
+      <div class="text-center">
+        <span class="u-divider u-divider--xs u-divider--text mb-4">OR</span>
+      </div>
+
+      <!-- Login Buttons -->
+      <div class="d-flex">
+        <a class="btn btn-block btn-sm btn-soft-facebook transition-3d-hover mr-1" href="#">
+          <span class="fab fa-facebook-square mr-1"></span>
+          Facebook
+        </a>
+        <a class="btn btn-block btn-sm btn-soft-google transition-3d-hover ml-1 mt-0" href="#">
+          <span class="fab fa-google mr-1"></span>
+          Google
+        </a>
+      </div>
+      <!-- End Login Buttons -->
+    </div>
+    <!-- End Signup -->
+
+    <!-- Forgot Password -->
+    <div id="forgotPassword" style="display: none; opacity: 0;" data-target-group="idForm">
+      <!-- Title -->
+      <header class="text-center mb-7">
+        <h2 class="h4 mb-0">Recover Password.</h2>
+        <p>Enter your email address and an email with instructions will be sent to you.</p>
+      </header>
+      <!-- End Title -->
+
+      <!-- Form Group -->
+      <div class="form-group">
+        <div class="js-form-message js-focus-state">
+          <label class="sr-only" for="recoverEmail">Your email</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="recoverEmailLabel">
+                <span class="fas fa-user"></span>
+              </span>
+            </div>
+            <input type="email" class="form-control" name="email" id="recoverEmail" placeholder="Your email" aria-label="Your email" aria-describedby="recoverEmailLabel" required
+                   data-msg="Please enter a valid email address."
+                   data-error-class="u-has-error"
+                   data-success-class="u-has-success">
+          </div>
+        </div>
+      </div>
+      <!-- End Form Group -->
+
+      <div class="mb-2">
+        <button type="submit" class="btn btn-block btn-sm btn-primary transition-3d-hover">Recover Password</button>
+      </div>
+
+      <div class="text-center mb-4">
+        <span class="small text-muted">Remember your password?</span>
+        <a class="js-animation-link small" href="javascript:;"
+           data-target="#login"
+           data-link-group="idForm"
+           data-animation-in="slideInUp">Login
+        </a>
+      </div>
+    </div>
+    <!-- End Forgot Password -->
+  </form>
+
+</div>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/jquery-validation/dist/jquery.validate.min.js" %}"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.validation.js" %}"></script>
+<script src="{% static "assets/js/components/hs.focus-state.js" %}"></script>
+<script src="{% static "assets/js/components/hs.show-animation.js" %}></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of form validation
+    $.HSCore.components.HSValidation.init('.js-validate', {
+      rules: {
+        confirmPassword: {
+          equalTo: '#signupPassword'
+        }
+      }
+    });
+
+    // initialization of forms
+    $.HSCore.components.HSFocusState.init();
+
+    // initialization of show animations
+    $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+  });
+</script>
+{% endblock scripts %}
