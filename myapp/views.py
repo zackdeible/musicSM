@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.urls import path
+from .models import Playlist, Track, Profile
 import requests, json
 
 token = ''
@@ -77,16 +78,30 @@ def search(request):
         print("SONG",rjson['tracks']['items'][0]['name'])
         print("LINK",rjson['tracks']['items'][0]['preview_url'])
 
+        playlist = Playlist.objects.all()
+        print("user", request.user)
+        print("PLAYLISTTTTTT", playlist)
+
         #print(response.text.encode('utf8'))
 
-    return render(request, 'myapp/search.html', {'searchResults':rjson})
+    return render(request, 'myapp/search.html', {'searchResults':rjson, 'playlists': playlist})
 
 def playlists(request):
-    if request.method == 'POST':
+    current_user = request.user
+    data = Playlist.objects.all()
 
+    pls = {
+        "playlists": data
+    }
+
+
+    if request.method == 'POST':
         form = request.POST
         posts = request.POST.get("playlist-name")
-        print("--------", posts)
+        playlist = Playlist(playlist_name=posts)
+        playlist.save()
+        playlist.users.add(current_user)
+        playlist.save()
 
 
-    return render(request, 'myapp/playlists.html')
+    return render(request, 'myapp/playlists.html', pls)

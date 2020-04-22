@@ -1,15 +1,41 @@
 {% extends "front.html" %}
 
-{% load static %}
 
 
 {% block links %}
+
+
+{% load static %}
+<script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready( () => {
+  $('#exampleModal').on('show.bs.modal', (event) => {
+
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var trackname = button.data('trackname') // Extract info from data-* attributes
+    var trackartist = button.data('trackartist')
+    console.log(trackname)
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var modal = $(this)
+    modal.find('.modal-title').text('Add ' + trackname + ' to playlist')
+    //modal.find('.modal-submit-playlist').onclick('console.log("poop")')
+    $('.modal-submit-playlist').click(() => {
+      // add to playlist code
+      // likely and ajax post request to backend for storage
+      console.log('poop '+trackartist);
+    })
+  })
+});
+</script>
 <!-- PUT ANY CSS LINKS IN HERE -->
+
 {% endblock links %}
 
 
 
 {% block body %}
+
 <!-- PUT YOUR BODY IN HERE -->
 <div class="container">
   <h1>Search for Artists or Songs!</h1>
@@ -23,22 +49,34 @@
     <div class="container">
       <div class="row">
         <div class="col">
+          <h3>Song Preview</h3>
+        </div>
+        <div class="col">
+          <h3>Song Name</h3>
+        </div>
+        <div class="col">
           <h3>Album Name</h3>
         </div>
         <div class="col">
           <h3>Artist Name</h3>
         </div>
         <div class="col">
-          <h3>Song Name</h3>
+          <h3>Add</h3>
         </div>
-        <div class="col">
-          <h3>Song Preview</h3>
-        </div>
+
     </div>
     <ul class="list-group" style="max-height:75vh; overflow:scroll">
     {% for result in searchResults.tracks.items %}
       <li class="list-group-item">
         <div class="row">
+          <div class="col">
+            <audio src="{{ result.preview_url }}" controls>
+              not supported
+            </audio>
+          </div>
+          <div class="col">
+            {{ result.name }}
+          </div>
           <div class="col">
             {{ result.album.name }}
           </div>
@@ -46,25 +84,65 @@
             {{ result.artists.0.name }}
           </div>
           <div class="col">
-            {{ result.name }}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-trackname="{{ result.name }}" data-trackartist="{{ result.artists.0.name }}">
+              Add to Playlist
+            </button>
+
           </div>
-          <div class="col">
-            <audio src="{{ result.preview_url }}" controls>
-              not supported
-            </audio>
-          </div>
+
         </div>
       </li>
     {% endfor %}
     </ul>
 
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Song to playlist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <h2>Current Playlists</h2>
+        <ul class="list-group" style="max-height:75vh; overflow:scroll">
+        {% for playlist in playlists %}
+        <li>
+          <div class="row">
+            <div class="col">
+              {{ playlist.playlist_name}}
+              <input type="checkbox" name="playlist" value="">
+            </div>
+          </div>
+        </li>
+
+
+
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary modal-submit-playlist">Save to playlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock body %}
 
 
 
 
 {% block scripts %}
-<!-- PUT JS LINKS IN HERE -->
+
 
 {% endblock scripts %}
