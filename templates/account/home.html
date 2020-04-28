@@ -1,1 +1,38 @@
-<h1>YO YO we made it</h1>
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+<link rel="stylesheet" type="text/css" href="{% static "css/trackRow.css" %}">
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+
+
+<div class="container">
+  <h1>Welcome to the home page.</h1>
+</div>
+
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+
+  <script type="text/javascript">
+    function playPreview(url) {
+      new Audio(url).play();
+
+
+    }
+
+  </script>
+{% endblock scripts %}

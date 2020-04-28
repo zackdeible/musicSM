@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 # Create your models here.
 class Track(models.Model):
@@ -7,8 +8,9 @@ class Track(models.Model):
     album_name = models.CharField(max_length=500)
     artist_name = models.CharField(max_length=500)
     album_pic = models.CharField(max_length=500)
-    preview_url = models.CharField(max_length=500)
-    stream_url = models.CharField(max_length=500)
+    our_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    spotify_url = models.CharField(max_length=500, default=None)
+    apple_url = models.CharField(max_length=500, default=None)
 
     def __str__(self):
         return self.track_name
@@ -16,7 +18,7 @@ class Track(models.Model):
 class Playlist(models.Model):
     playlist_name = models.CharField(max_length=500)
     tracks = models.ManyToManyField(Track, default=None)
-    users = models.ManyToManyField(User, default=None)
+    users = models.ManyToManyField(User, blank=True, default=None)
 
     def __str__(self):
         return self.playlist_name

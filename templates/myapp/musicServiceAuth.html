@@ -14,16 +14,20 @@
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
 {% csrf_token %}
-<h1>Continue with Spotify</h1>
-<form  action="/authRedirect">
-  <input type="submit" value="FUCK YOU SPOTIFY">
-</form>
+<div class="container">
+  <h1>Continue with Spotify</h1>
+  <form  action="/authRedirect">
+    <input type="submit" class="btn btn-success" value="FUCK YOU SPOTIFY">
+  </form>
 
 
-<h1>Continue with Apple Music</h1>
-<form  action="">
-  <input type="submit" value="APPLE MUSIC IS WORSE THAN SPOTIFY">
-</form>
+  <h1>Continue with Apple Music</h1>
+  <form  action="">
+    <input type="submit" class="btn btn-danger" value="APPLE MUSIC IS WORSE THAN SPOTIFY">
+  </form>
+
+</div>
+
 
 
 {% endblock body %}
