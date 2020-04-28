@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
 from django.urls import path
 from .models import Playlist, Track, Profile
 import requests, json
@@ -73,14 +72,14 @@ def search(request):
         #print("TEST", rjson['tracks']['items'][0]['album']['name'])
 
         #print("-------------",rjson['tracks'].items)
-        print("ALBUM", rjson['tracks']['items'][0]['album']['name'])
-        print("ARTIST",rjson['tracks']['items'][0]['artists'][0]['name'])
-        print("SONG",rjson['tracks']['items'][0]['name'])
-        print("LINK",rjson['tracks']['items'][0]['preview_url'])
+        #print("ALBUM", rjson['tracks']['items'][0]['album']['name'])
+        #print("ARTIST",rjson['tracks']['items'][0]['artists'][0]['name'])
+        #print("SONG",rjson['tracks']['items'][0]['name'])
+        #print("LINK",rjson['tracks']['items'][0]['preview_url'])
 
         playlist = Playlist.objects.all()
-        print("user", request.user)
-        print("PLAYLISTTTTTT", playlist)
+        #print("user", request.user)
+        #print("PLAYLISTTTTTT", playlist)
 
         #print(response.text.encode('utf8'))
 
@@ -89,6 +88,7 @@ def search(request):
 def playlists(request):
     current_user = request.user
     data = Playlist.objects.all()
+    #print(current_user)
 
     pls = {
         "playlists": data
@@ -100,8 +100,55 @@ def playlists(request):
         posts = request.POST.get("playlist-name")
         playlist = Playlist(playlist_name=posts)
         playlist.save()
-        playlist.users.add(current_user)
-        playlist.save()
+
+        #print("current", current_user)
+        #print(Playlist.objects.get(playlist_name=posts))
+        #playlist.users.add(current_user)
+        #print(playlist.users.add(current_user))
+
+        #playlist.save()
 
 
     return render(request, 'myapp/playlists.html', pls)
+
+def add_to_playlist(request):
+
+    # 1) get the track name that is selected (will eventually need to get album to search for ID)
+
+    # 2) Get the track ID for that track
+
+    # 3) Add that ID for each of the playlists
+
+
+    if request.method == 'POST':
+        data = request.POST
+        print(data)
+
+        playlists = data.getlist('playlists[]')
+        for x in playlists:
+            print(x)
+        #print(data['playlists[]'])
+    return render(request, 'myapp/playlists.html')
+
+def playlist_data(request):
+    # 1) call track db
+    track = Track()
+
+    # 2) Check if track AND album are in the db already
+
+    # 3) If it is, do not do anything
+
+    # 4) If it isn't save all attributes to db, an ID will be generated and the track in in our db
+
+    if request.method == 'POST':
+        print(request.POST)
+        data = request.POST
+        track_name = data['trackname']
+        album_name = data['albumname']
+        track_artist = data['trackartist']
+        album_pic = data['albumpic']
+        spotify_url = data['spotifyurl']
+
+
+
+    return render(request, 'myapp/playlists.html')

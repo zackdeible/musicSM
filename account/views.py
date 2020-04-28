@@ -5,7 +5,7 @@ from django.contrib import messages
 from .forms import UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import path
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def home(request):
@@ -14,6 +14,11 @@ def home(request):
 
 def login_view(request):
     return render(request, 'account/login.html', {})
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "Logged out successfully")
+    return redirect('home')
 
 def login_request(request):
     if request.method == 'POST':

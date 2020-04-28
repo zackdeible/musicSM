@@ -6,6 +6,8 @@
 
 
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static "css/trackRow.css" %}">
+
 <script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
 <script type="text/javascript">
   $(document).ready( () => {
@@ -14,19 +16,87 @@
     var button = $(event.relatedTarget) // Button that triggered the modal
     var trackname = button.data('trackname') // Extract info from data-* attributes
     var trackartist = button.data('trackartist')
-    console.log(trackname)
+    var albumname = button.data('albumname')
+    var albumpic = button.data('albumpic')
+    var spotifyurl = button.data('spotifyurl')
+
+
+
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
     var modal = $(this)
     modal.find('.modal-title').text('Add ' + trackname + ' to playlist')
     //modal.find('.modal-submit-playlist').onclick('console.log("poop")')
-    $('.modal-submit-playlist').click(() => {
+    //$('.modal-submit-playlist').click(() => {
       // add to playlist code
       // likely and ajax post request to backend for storage
-      console.log('poop '+trackartist);
+    $.ajax({
+      type: 'POST',
+      url: 'playlistData/',
+      data: { csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
+            state:"inactive",
+            trackname:trackname,
+            trackartist:trackartist,
+            albumname:albumname,
+            albumpic:albumpic,
+            spotifyurl:spotifyurl,
+
+          },
+
+      //console.log('poop '+playlists+trackname+albumname+albumpic+spotifyurl);
+
     })
+
   })
+  /*
+  $('#playlistModal').click( (event) => {
+    //alert("You clicked the button using JQuery!");
+    //var button = $(event.relatedTarget)
+    var playlist = $(this).attr('data-playlist')
+    console.log("yo")
+    console.log(playlist)
+
+  });
+  */
+
 });
+
+
+
+function sendAddPlaylistRequest() {
+  var selected = document.querySelectorAll('[name="playlist"]:checked')
+  let playlistsSelected = [];
+  //var trackName = document.querySelector('[id=trackName]')
+  var trackName = document.getElementById("trackName").innerText
+  //console.log(document.getElementById('trackName').innerHTML);
+
+  //console.log(trackName)
+  selected.forEach((x) => {
+    console.log(x.value);
+    playlistsSelected.push(x.value);
+  })
+
+  $.ajax({
+    type: 'POST',
+    url: 'addToPlaylist/',
+    data: { csrfmiddlewaretoken: "{{ csrf_token }}",
+    playlists:playlistsSelected,
+    trackname:trackName   // < here
+  }
+
+    //console.log('poop '+playlists+trackname+albumname+albumpic+spotifyurl);
+
+  })
+
+  /*
+  let checkboxes = document.getElementById('playlistOptions');
+  let playlistList = checkboxes.getElementById('input');
+
+
+  */
+}
+
+
 </script>
 <!-- PUT ANY CSS LINKS IN HERE -->
 
@@ -38,66 +108,142 @@
 
 <!-- PUT YOUR BODY IN HERE -->
 <div class="container">
-  <h1>Search for Artists or Songs!</h1>
-  <form action="/search" method="post">
-    {% csrf_token %}
-    <input type="text" name="search"  placeholder="Search">
-    <input type="submit" value="Submit">
+  <!-- Hero Section -->
 
-  </form>
-  <hr>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h3>Song Preview</h3>
-        </div>
-        <div class="col">
-          <h3>Song Name</h3>
-        </div>
-        <div class="col">
-          <h3>Album Name</h3>
-        </div>
-        <div class="col">
-          <h3>Artist Name</h3>
-        </div>
-        <div class="col">
-          <h3>Add</h3>
-        </div>
-
+  <div class="container space-2">
+    <!-- Title -->
+    <div class="mb-7">
+      <span class="d-block text-secondary">Get access to millions of songs in one place.</span>
+      <h1 class="text-success font-weight-semi-bold">Collab and discover new music</h1>
     </div>
+    <!-- End Title -->
+
+    <!-- Search Jobs Form -->
+    <form class="row mb-2" action="/search" method="post">
+      {% csrf_token %}
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <!-- Input -->
+        <label class="d-block">
+          <span class="h6 d-block text-dark font-weight-semi-bold mb-0">Search any song, album, or artist</span>
+        </label>
+        <div class="js-focus-state">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Song, album, or artist" aria-label="Company or title" aria-describedby="keywordInputAddon">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <span class="fas fa-search" id="keywordInputAddon"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- End Input -->
+      </div>
+
+
+
+      <div class="col-lg-2 align-self-lg-end">
+        <button type="submit" value="submit" class="btn btn-block btn-success transition-3d-hover">Search</button>
+      </div>
+      <!-- End Checkbox -->
+    </form>
+    <!-- End Search Jobs Form -->
+  </div>
+
+
+  <!-- End SVG Icon -->
+
+<!-- End Hero Section -->
+
+
     <ul class="list-group" style="max-height:75vh; overflow:scroll">
-    {% for result in searchResults.tracks.items %}
+      {% for result in searchResults.tracks.items %}
       <li class="list-group-item">
-        <div class="row">
-          <div class="col">
-            <audio src="{{ result.preview_url }}" controls>
-              not supported
-            </audio>
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-2 col-lg-1 album-pic">
+            <img src="{{ result.album.images.2.url }}" alt="">
+            <div class="play">
+              <img src="http://cdn1.iconfinder.com/data/icons/flavour/button_play_blue.png" onclick="playPreview('{{ result.preview_url }}')" />
+            </div>
           </div>
-          <div class="col">
-            {{ result.name }}
+          <div class="col-8 col-lg-9">
+            <div class="row">
+              <div class="col-12 ml-3">
+                <p id="trackName" value="{{ result.name }}">{{ result.name }}</p>
+              </div>
+              <div class="col-12 ml-3">
+                {{ result.artists.0.name }}
+              </div>
+            </div>
           </div>
-          <div class="col">
-            {{ result.album.name }}
-          </div>
-          <div class="col">
-            {{ result.artists.0.name }}
-          </div>
-          <div class="col">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-trackname="{{ result.name }}" data-trackartist="{{ result.artists.0.name }}">
-              Add to Playlist
-            </button>
+          <div class="col-2 col-lg-2">
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                  <div class="p-2">
+                    <i class="fas fa-plus" method="POST" action="playlist-data" data-toggle="modal" onclick="sendAddPlaylistRequest()"
+                    data-target="#exampleModal" data-trackname="{{ result.name }}"
+                    data-trackartist="{{ result.artists.0.name }}"
+                    data-albumname="{{ result.album.name }}"
+                    data-albumpic="{{ result.album.images.2.url }}"
+                    data-spotifyurl="{{ result.album.external_urls.spotify }}"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                  <div class="p-2">
+                    <a class="track-link text-right text-success" href="{{ result.external_urls.spotify }}">Full Song</a>
+                  </div>
+                </div>
 
+              </div>
+            </div>
           </div>
-
         </div>
       </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!--
+    <div class="container">
+
+    <ul class="list-group" style="max-height:75vh; overflow:scroll">
+      <li class="list-group-item">
+    {% for result in searchResults.tracks.items %}
+
+
+
+      <div class="row">
+        <div class="album-pic">
+          <img src="{{ result.album.images.2.url }}" alt="">
+           <div class="play">
+             <img src="http://cdn1.iconfinder.com/data/icons/flavour/button_play_blue.png" onclick="playPreview('https://p.scdn.co/mp3-preview/d9b90990dab9d8376d05c5d4a6b7ac3e99c03763?cid=a99685f835d240cb879158f2183ba000')" />
+           </div>
+        </div>
+        <div class="info-container">
+          <div class="track-text-line track-names-line">
+            <h1 class="track-title truncate" id="trackName" value="{{ result.name }}">{{ result.name }}</h1>
+            <i class="fas fa-plus add-to-playlist" method="POST" action="playlist-data" class="fas fa-plus add-to-queue" data-toggle="modal" onclick="sendAddPlaylistRequest()"
+            data-target="#exampleModal" data-trackname="{{ result.name }}"
+            data-trackartist="{{ result.artists.0.name }}"
+            data-albumname="{{ result.album.name }}"
+            data-albumpic="{{ result.album.images.2.url }}"
+            data-spotifyurl="{{ result.album.external_urls.spotify }}"</i>
+          </div>
+          <div class="track-text-line">
+            <h2 class="artist-name truncate">{{ result.artists.0.name }}</h2>
+            <a class="track-link" href="{{ result.album.external_urls.spotify }}">Full Song</a>
+          </div>
+        </div>
+      </div>
+    </li>
+
+
     {% endfor %}
     </ul>
 
 </div>
-
+-->
 
 
 <!-- Modal -->
@@ -111,28 +257,30 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="container">
-          <h2>Current Playlists</h2>
-        <ul class="list-group" style="max-height:75vh; overflow:scroll">
-        {% for playlist in playlists %}
-        <li>
-          <div class="row">
-            <div class="col">
-              {{ playlist.playlist_name}}
-              <input type="checkbox" name="playlist" value="">
+        <form >
+          <div class="container">
+            <h2>Current Playlists</h2>
+          <ul class="list-group" style="max-height:75vh; overflow:scroll">
+          {% for playlist in playlists %}
+          <li>
+            <div class="row">
+              <div id="playlistOptions" class="col">
+                {{ playlist.playlist_name}}
+                <input type="checkbox" name="playlist" id="{{ playlist.playlist_name}}checkbox" value="{{ playlist.playlist_name}}">
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" onclick="sendAddPlaylistRequest()">Save to playlist</button>
+        </div>
+
+        </form>
 
 
-
-        {% endfor %}
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary modal-submit-playlist">Save to playlist</button>
-      </div>
     </div>
   </div>
 </div>
@@ -143,6 +291,39 @@
 
 
 {% block scripts %}
+<script type="text/javascript">
+  function playPreview(url) {
+    console.log(url)
+    new Audio(url).play();
+
+
+
+  }
+
+</script>
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/svg-injector/dist/svg-injector.min.js" %}"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.focus-state.js" %}"></script>
+<script src="{% static "assets/js/components/hs.svg-injector.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of forms
+    $.HSCore.components.HSFocusState.init();
+  });
+</script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('load', function () {
+    // initialization of svg injector module
+    $.HSCore.components.HSSVGIngector.init('.js-svg-injector');
+  });
+</script>
 
 
 {% endblock scripts %}
