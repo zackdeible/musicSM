@@ -123,22 +123,26 @@ def add_to_playlist(request):
     if request.method == 'POST':
         data = request.POST
         print(data)
+        trackname = data['trackname']
+        track = Track.objects.filter(track_name=trackname).values()
+        print("----------------------------------------", track)
+        for item in track:
+            id = item['our_id']
+
+
 
         playlists = data.getlist('playlists[]')
         for x in playlists:
-            print(x)
+            playlist = Playlist(playlist_name=x)
+            print(playlist)
+            playlist.tracks.add(track)
+            playlist.save()
+
         #print(data['playlists[]'])
     return render(request, 'myapp/playlists.html')
 
 def playlist_data(request):
-    # 1) call track db
-    track = Track()
 
-    # 2) Check if track AND album are in the db already
-
-    # 3) If it is, do not do anything
-
-    # 4) If it isn't save all attributes to db, an ID will be generated and the track in in our db
 
     if request.method == 'POST':
         print(request.POST)
@@ -148,6 +152,24 @@ def playlist_data(request):
         track_artist = data['trackartist']
         album_pic = data['albumpic']
         spotify_url = data['spotifyurl']
+
+        # 2) Check if track AND album are in the db already
+
+
+        print("ypopooo", Track.objects.filter(track_name=track_name))
+
+        track_in_db = Track.objects.filter(track_name=track_name)
+
+        if not track_in_db:
+            track = Track(track_name=track_name, album_name=album_name, artist_name=track_artist, album_pic=album_pic, spotify_url=spotify_url, apple_url="")
+            track.save()
+        else:
+            print("congrats on the sex")
+
+
+        # 3) If it is, do not do anything
+
+        # 4) If it isn't save all attributes to db, an ID will be generated and the track in in our db
 
 
 
