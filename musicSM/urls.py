@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from myapp import views
 from account import views
+from socialfeed import views 
 
 urlpatterns = [
     path('', include('myapp.urls' )),
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls') )
+    path('account/', include('account.urls')),
+    path('socialfeed/', include('socialfeed.urls')) 
 
 ]
