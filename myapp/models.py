@@ -8,7 +8,7 @@ class Track(models.Model):
     album_name = models.CharField(max_length=500)
     artist_name = models.CharField(max_length=500)
     album_pic = models.CharField(max_length=500)
-    our_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    #our_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     spotify_url = models.CharField(max_length=500, default=None)
     apple_url = models.CharField(max_length=500, default=None)
 
@@ -17,8 +17,8 @@ class Track(models.Model):
 
 class Playlist(models.Model):
     playlist_name = models.CharField(max_length=500)
-    tracks = models.ManyToManyField(Track, default=None)
-    users = models.ManyToManyField(User, blank=True, default=None)
+    tracks = models.ManyToManyField(Track)
+    users = models.ManyToManyField(User)
 
     def __str__(self):
         return self.playlist_name

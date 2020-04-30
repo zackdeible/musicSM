@@ -103,17 +103,17 @@ def playlists(request):
 
         #print("current", current_user)
         #print(Playlist.objects.get(playlist_name=posts))
-        #playlist.users.add(current_user)
+        playlist.users.add(current_user)
         #print(playlist.users.add(current_user))
 
-        #playlist.save()
+        playlist.save()
 
 
     return render(request, 'myapp/playlists.html', pls)
 
 def add_to_playlist(request):
 
-    # 1) get the track name that is selected (will eventually need to get album to search for ID)
+    # 1) get the track name that is selected
 
     # 2) Get the track ID for that track
 
@@ -127,15 +127,16 @@ def add_to_playlist(request):
         track = Track.objects.filter(track_name=trackname).values()
         print("----------------------------------------", track)
         for item in track:
-            id = item['our_id']
+            id = item['id']
 
 
 
         playlists = data.getlist('playlists[]')
         for x in playlists:
-            playlist = Playlist(playlist_name=x)
+            #playlist = Playlist(playlist_name=x)
+            playlist = Playlist.objects.get(playlist_name=x)
             print(playlist)
-            playlist.tracks.add(track)
+            playlist.tracks.add(id)
             playlist.save()
 
         #print(data['playlists[]'])
@@ -156,15 +157,13 @@ def playlist_data(request):
         # 2) Check if track AND album are in the db already
 
 
-        print("ypopooo", Track.objects.filter(track_name=track_name))
+
 
         track_in_db = Track.objects.filter(track_name=track_name)
 
         if not track_in_db:
             track = Track(track_name=track_name, album_name=album_name, artist_name=track_artist, album_pic=album_pic, spotify_url=spotify_url, apple_url="")
             track.save()
-        else:
-            print("congrats on the sex")
 
 
         # 3) If it is, do not do anything
