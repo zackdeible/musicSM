@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'myapp',
     'account',
     'jquery',
+    'socialfeed'
 ]
 
 MIDDLEWARE = [
