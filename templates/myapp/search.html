@@ -8,8 +8,10 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static "css/trackRow.css" %}">
 
+
 <script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
 <script type="text/javascript">
+  var currentTrackName = '';
   $(document).ready( () => {
   $('#exampleModal').on('show.bs.modal', (event) => {
 
@@ -20,7 +22,8 @@
     var albumpic = button.data('albumpic')
     var spotifyurl = button.data('spotifyurl')
 
-
+    console.log(trackname);
+    currentTrackName = trackname;
 
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -67,7 +70,7 @@ function sendAddPlaylistRequest() {
   var selected = document.querySelectorAll('[name="playlist"]:checked')
   let playlistsSelected = [];
   //var trackName = document.querySelector('[id=trackName]')
-  var trackName = document.getElementById("trackName").innerText
+  //var trackName = document.getElementById("trackName").innerText
   //console.log(document.getElementById('trackName').innerHTML);
 
   //console.log(trackName)
@@ -79,10 +82,17 @@ function sendAddPlaylistRequest() {
   $.ajax({
     type: 'POST',
     url: 'addToPlaylist/',
-    data: { csrfmiddlewaretoken: "{{ csrf_token }}",
-    playlists:playlistsSelected,
-    trackname:trackName   // < here
-  }
+    data: {
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+      playlists:playlistsSelected,
+      trackname:currentTrackName
+    },
+    complete: (data) => {
+      console.log('SUCCESS')
+      console.log(data)
+      $('#exampleModal').modal('hide');
+      // $('#exampleModal').modal('dispose');
+    }
 
     //console.log('poop '+playlists+trackname+albumname+albumpic+spotifyurl);
 
@@ -91,11 +101,8 @@ function sendAddPlaylistRequest() {
   /*
   let checkboxes = document.getElementById('playlistOptions');
   let playlistList = checkboxes.getElementById('input');
-
-
   */
 }
-
 
 </script>
 <!-- PUT ANY CSS LINKS IN HERE -->
@@ -168,7 +175,7 @@ function sendAddPlaylistRequest() {
           <div class="col-8 col-lg-9">
             <div class="row">
               <div class="col-12 ml-3">
-                <p id="trackName" value="{{ result.name }}">{{ result.name }}</p>
+                <p value="{{ result.name }}">{{ result.name }}</p>
               </div>
               <div class="col-12 ml-3">
                 {{ result.artists.0.name }}
@@ -180,7 +187,7 @@ function sendAddPlaylistRequest() {
               <div class="col-12">
                 <div class="d-flex flex-row-reverse">
                   <div class="p-2">
-                    <i class="fas fa-plus" method="POST" action="playlist-data" data-toggle="modal" onclick="sendAddPlaylistRequest()"
+                    <i class="fas fa-plus" method="POST" action="playlist-data" data-toggle="modal"
                     data-target="#exampleModal" data-trackname="{{ result.name }}"
                     data-trackartist="{{ result.artists.0.name }}"
                     data-albumname="{{ result.album.name }}"

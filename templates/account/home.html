@@ -14,9 +14,61 @@
 <!-- PUT YOUR BODY IN HERE -->
 
 
-<div class="container">
-  <h1>Welcome to the home page.</h1>
+
+  <!-- Hero Section -->
+<div id="SVGheroComponents" class="svg-preloader bg-success position-relative overflow-hidden">
+  <!-- Content -->
+  <div class="container position-relative space-3 space-top-md-5 space-lg-4 z-index-2">
+    <!-- Title -->
+    <div class="text-center mb-7">
+      <div class="w-lg-80 mx-auto">
+        <h1 class="display-4 font-size-md-down-5 text-white mb-3">Say <span class="font-weight-semi-bold">Hello</span> to all businesses</h1>
+      </div>
+      <div class="w-md-80 w-lg-60 mx-auto">
+        <p class="lead text-white-70">Achieve virtually any design and layout from within the one template. Attract more visitors, and win more business with Front template.</p>
+      </div>
+    </div>
+    <!-- End Title -->
+
+    <!-- Subscribe Form -->
+    <form class="js-validate w-md-50 w-lg-40 mx-auto">
+      <label class="sr-only" for="heroSubscribeSrEmail">Enter your email address</label>
+      <div class="input-group input-group-lg input-group-borderless input-group-pill">
+        <input type="email" class="form-control" name="email" id="heroSubscribeSrEmail" placeholder="Enter your email address" aria-label="Enter your email address" aria-describedby="heroSubscribeButton" required>
+        <div class="input-group-append">
+          <button class="btn btn-white text-success" type="button" id="heroSubscribeButton">
+            <span class="fas fa-paper-plane"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- End Subscribe Form -->
+  </div>
+  <!-- End Content -->
+
+  <!-- SVG Top Left Shapes -->
+  <figure class="position-absolute top-0 left-0 w-60 ie-double-ellipse-top-left">
+    <img class="js-svg-injector" src="{% static "assets/svg/components/double-ellipse-top-left.svg" %}" alt="Image Description"
+         data-parent="#SVGheroComponents">
+  </figure>
+  <!-- End SVG Top Left Shapes -->
+
+  <!-- SVG Bottom Right Shapes -->
+  <figure class="position-absolute right-0 bottom-0 w-15 ie-double-ellipse-bottom-right">
+    <img class="js-svg-injector" src="{% static "assets/svg/components/double-ellipse-bottom-right.svg" %}" alt="Image Description"
+         data-parent="#SVGheroComponents">
+  </figure>
+  <!-- End SVG Bottom Right Shapes -->
+
+  <!-- SVG Bottom Shape -->
+  <figure class="position-absolute right-0 bottom-0 left-0">
+    <img class="js-svg-injector" src="{% static "assets/svg/components/curved-1.svg" %}" alt="Image Description"
+         data-parent="#SVGheroComponents">
+  </figure>
+  <!-- End SVG Bottom Shape -->
 </div>
+<!-- End Hero Section -->
+
 
 
 {% endblock body %}
@@ -26,6 +78,20 @@
 
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/svg-injector/dist/svg-injector.min.js" %}"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.svg-injector.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(window).on('load', function () {
+    // initialization of svg injector module
+    $.HSCore.components.HSSVGIngector.init('.js-svg-injector');
+  });
+</script>
 
   <script type="text/javascript">
     function playPreview(url) {
