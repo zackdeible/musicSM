@@ -19,6 +19,8 @@ def home(request):
         if request.method == 'GET':
             url = "https://accounts.spotify.com/api/token"
 
+
+
             payload = ('grant_type=authorization_code&code='+
                         authCode +
                         '&redirect_uri=http%3A//127.0.0.1%3A8000')
@@ -37,7 +39,9 @@ def home(request):
         return render(request, 'myapp/musicServiceAuth.html')
 
 def authRedirect(request):
-    return redirect('https://accounts.spotify.com/en/authorize?client_id=a99685f835d240cb879158f2183ba000&redirect_uri=http:%2F%2F127.0.0.1:8000&response_type=code')
+    scope = 'user-top-read playlist-modify-public'
+    return redirect('https://accounts.spotify.com/en/authorize?client_id=a99685f835d240cb879158f2183ba000&redirect_uri=http:%2F%2F127.0.0.1:8000&response_type=code&scope='+
+    scope)
 
 def musicServiceAuth(request):
      return render(request, 'myapp/musicServiceAuth.html')
@@ -77,7 +81,8 @@ def search(request):
         #print("SONG",rjson['tracks']['items'][0]['name'])
         #print("LINK",rjson['tracks']['items'][0]['preview_url'])
 
-        playlist = Playlist.objects.all()
+        current_user = request.user
+        playlist = Playlist.objects.filter(users=current_user)
         #print("user", request.user)
         #print("PLAYLISTTTTTT", playlist)
 
@@ -87,7 +92,7 @@ def search(request):
 
 def playlists(request):
     current_user = request.user
-    data = Playlist.objects.all()
+    data = Playlist.objects.filter(users=current_user)
     #print(current_user)
 
     pls = {
@@ -173,3 +178,70 @@ def playlist_data(request):
 
 
     return render(request, 'myapp/playlists.html')
+
+def export_playlist(request):
+
+    # 1) get auth TOKEN
+    # 2) get userprofile of current user
+    # 3) create (POST) playlist with: https://api.spotify.com/v1/users/{user_id}/playlists
+    # 3.1) look up all the songs of that playlist name, get the spotify ids in a list format
+    # 4) add tracks to that playlist with: https://api.spotify.com/v1/playlists/{playlist_id}/tracks
+
+    global token
+
+    print("WE MADE IT HERE BBY")
+
+    authToken = token
+    print("TOKEN",token)
+
+    url = ('https://api.spotify.com/v1/me?access_token=' +
+            authToken)
+
+    print("URL", url)
+
+    response = requests.request("GET", url)
+    rjson = response.json()
+    print("THIS THE RESPONSE BITCH", rjson)
+
+    user_id = rjson['id']
+    print("USER PROFILE", user_id)
+
+    #create_playlist_url = ('https://api.spotify.com/v1/users/{'+user_id+'}/playlists')
+
+
+    return render(request, 'myapp/playlists.html')
+
+
+def get_users_top_music(request):
+
+    global token
+
+    authToken = token
+    headers = {
+      'Authorization': 'Bearer '+authToken
+    }
+
+    print("HEADERS",headers)
+
+    # get users top tracks frin the personalization endpoint
+
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term')
+    print(url_tracks)
+
+    response = requests.request("GET", url_tracks, headers=headers)
+
+    rjson = response.json()
+
+    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term')
+    print(url_artists)
+
+    response1 = requests.request("GET", url_artists, headers=headers)
+
+    artist_rjson = response1.json()
+
+
+
+
+
+
+    return render(request, 'myapp/userTopMusic.html', {'searchResults': rjson, 'artists': artist_rjson})

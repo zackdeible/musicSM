@@ -1,0 +1,82 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<div class="container">
+
+  <div class="header">
+    <h1>BudUp Music</h1>
+    <p>What are you listening to?</p>
+
+  </div>
+
+  <div class="d-flex flex-row">
+
+    {% for album in searchResults.items %}
+
+      <div class="col">
+        <img src="{{ album.album.images.2.url }}" width="64" height="64" alt="">
+      </div>
+
+
+    {% endfor %}
+
+  </div>
+
+
+
+
+  <ul class="list-group" style="max-height:75vh; overflow:scroll">
+    {% for track in searchResults.items %}
+    <li class="list-group-item">
+
+      {{ track.name }}
+    </li>
+
+    {% endfor %}
+
+  </ul>
+
+  <ul class="list-group" style="max-height:75vh; overflow:scroll">
+    {% for artistPic in artists.items %}
+    <li class="list-group-item">
+
+      <img src="{{ artistPic.images.2.url }}" width="64" height="64" alt="">
+
+
+    </li>
+
+    {% endfor %}
+
+  </ul>
+
+  <ul class="list-group" style="max-height:75vh; overflow:scroll">
+    {% for artist in artists.items %}
+    <li class="list-group-item">
+
+      {{ artist.name }}
+    </li>
+
+    {% endfor %}
+
+  </ul>
+
+
+</div>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}

@@ -9,6 +9,8 @@ urlpatterns = [
     path('musicServiceAuth', views.musicServiceAuth, name='musicServiceAuth'),
     path('authRedirect', views.authRedirect, name='testing'),
     path('playlistData/', views.playlist_data, name='playlist-data'),
-    path('addToPlaylist/', views.add_to_playlist, name='add-to-playlist')
+    path('addToPlaylist/', views.add_to_playlist, name='add-to-playlist'),
+    path('exportPlaylist/', views.export_playlist, name='export-playlist'),
+    path('userTopMusic/', views.get_users_top_music, name='user-top-music')
 
 ]
