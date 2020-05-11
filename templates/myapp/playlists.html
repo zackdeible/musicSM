@@ -5,6 +5,10 @@
 
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
+<script type="text/javascript">
+
+
+</script>
 {% endblock links %}
 
 
@@ -24,8 +28,14 @@
   <li class="list-group-item">
     <div class="row">
       <div class="col">
-        {{ playlist.playlist_name}}
+        <p id="playlistName">{{ playlist.playlist_name}}</p>
       </div>
+
+        <div class="col">
+          <button  class="btn btn-dark" style="background-color: #67009a" onclick="sendUploadRequest('{{ playlist.playlist_name}}')" >Upload</button>
+        </div>
+
+
     </div>
   </li>
 {% endfor %}
@@ -35,12 +45,15 @@
 
   <form action="/playlists/" method="post">
     {% csrf_token %}
-    <input type="text" name="playlist-name" placeholder="Enter playlist name ">
-    <button type="submit" name="create-playlist">Create</button>
+    <div class="input-group">
+      <input type="text" name="playlist-name" class="form-control" placeholder="Enter playlist name ">
+      <button type="submit" class="btn btn-success" name="create-playlist">Create</button>
+
+    </div>
+
   </form>
 
 </div>
-
 
 {% endblock body %}
 
@@ -49,4 +62,34 @@
 
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
+<script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+
+
+<script type="text/javascript">
+
+
+function sendUploadRequest(playlistName) {
+  var playlistName = playlistName
+  console.log(playlistName)
+
+
+
+  $.ajax({
+    type: 'POST',
+    url: '/exportPlaylist/',
+    data: {
+      csrfmiddlewaretoken: "{{ csrf_token }}",
+    }
+
+
+  })
+
+}
+
+</script>
+
+
+
+
+
 {% endblock scripts %}
