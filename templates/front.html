@@ -36,36 +36,7 @@
 
 
 <body>
-  <div class="bg-success p-4">
-  {% if user.is_authenticated %}
-  <ul class="nav nav-border-white justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link active" href="{% url 'home' %}">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'homeAuth' %}">Auth</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'account-logout' %}">Logout</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'playlists' %}">Playlists</a>
-    </li>
-  </ul>
-  {% else %}
-  <ul class="nav nav-border-white justify-content-end">
-    <li class="nav-item">
-      <a class="nav-link active" href="{% url 'home' %}">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'account-login' %}">Login</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'account-register' %}">SignUp</a>
-    </li>
-  </ul>
-  {% endif %}
-</div>
+  
 
 
 	{% block body %}
