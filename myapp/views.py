@@ -33,7 +33,7 @@ def home(request):
 
             token = response.json()['access_token']
             print("---------------------",token)
-            return render(request, 'myapp/search.html')
+            return render(request, 'myapp/userTopMusic.html')
 
     else:
         return render(request, 'myapp/musicServiceAuth.html')
