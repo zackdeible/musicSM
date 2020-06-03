@@ -2,102 +2,92 @@
 
 {% load static %}
 
-
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
+
 {% endblock links %}
 
 
-
 {% block body %}
-<!-- PUT YOUR BODY IN HERE -->
-<div class="container">
 
-  <div class="header">
-    <h1>BudUp Music</h1>
-    <p>What are you listening to?</p>
-
-  </div>
+<body style="background-color: black;">
 
 
-<div class="row">
-  <div class="col">
-    <h3>Top 5 Songs</h3>
-
-    <ul class="list-group" style="max-height:75vh; overflow:scroll">
-      {% for track in searchResults.items %}
+<!-- PUT YOUR HOME IN HERE -->
 
 
-      <li class="list-group-item">
-        <div class="row d-flex flex-wrap align-items-center">
-          <div class="col-2 col-lg-1 album-pic">
-            <img src="{{ track.album.images.2.url }}" width="60" height="60" alt="">
-          </div>
-          <div class="col-7 col-lg-9">
-            <div class="row">
-              <div class="col-12 ml-6">
-                {{ track.name }}
-              </div>
-              <div class="col-12 ml-6">
-                <p>{{ track.artists.0.name }}</p>
+  <div class="container">
+
+    <div class="header">
+     
+      <h1 style="color: #5C2C92;">@BudUpMusic</h1>
+      <p style="color: #B3B4B5;">What are you listening to during quarantine?</p>
+      <div class="container">
+        <img src="buduplogo.jpeg" alt="logo" style="width:500px;height:600px;">  
+      </div>
+      
+        
+   
+    </div>
+
+  <!-- PUT YOUR Top 5 Songs IN HERE -->
+
+  <div class="row">
+    <div class="col-sm">
+      <h3 style="color: #56BC66;">Top 5 Songs</h3>
+
+      <ol class="list-group" style="max-height:75vh; overflow:scroll">
+        {% for track in searchResults.items %}
+
+
+        <li class="list-group-item">
+          <div class="row d-flex flex-wrap align-items-center">
+
+          <div class="col-1 ml-1">
+                <h2>1</h2>
+              
+            </div>
+
+            <div class="col-2 col-lg-1 album-pic">
+                <img src="{{ track.album.images.2.url }}" width="80" height="75" alt="">
+            </div>
+    
+            <div class="col-7 col-lg-9">
+              <div class="row">
+                <div class="col-12 ml-6">
+                  {{ track.name }}
+                </div>
+
+                <div class="col-12 ml-6">
+                  <p>{{ track.artists.0.name }}</p>
+                </div>
               </div>
             </div>
-          </div>
 
-      </li>
-      {% endfor %}
+        </li>
+        {% endfor %}
 
 
-    </ul>
+      </ol>
+
+    </div>
+
+
+
 
   </div>
+  <div class="container">
+    <p style="float:left;" "color: #B3B4B5;">https:www.budupmusic.com</p>
+    <a href="#" class="btn-artist" style="float:right" id="right-button" href="right-but"> Top 5 Artists </button>
+  </div>
+  
 
-  <div class="col">
-    <h3>Top 5 Artists</h3>
-    <ul class="list-group" style="max-height:75vh; overflow:scroll">
-      {% for artist in artists.items %}
-
-      <li class="list-group-item">
-        <div class="row d-flex flex-wrap align-items-center">
-          <div class="col-2 col-lg-1 album-pic">
-            <img src="{{ artist.images.2.url }}" width="54" height="54" alt="">
-          </div>
-          <div class="col-8 col-lg-9">
-            <div class="row">
-              <div class="col ml-6">
-                <p>{{ artist.name }}</p>
-              </div>
-            </div>
-          </div>
-
-      </li>
-      {% endfor %}
-
-    </ul>
+  </div>
+  {% endblock body %}
 
 
+</body>
 
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-</div>
-{% endblock body %}
-
-
-
-
-{% block scripts %}
-<!-- PUT JS LINKS IN HERE -->
-{% endblock scripts %}
+  {% block scripts %}
+  <!-- PUT JS LINKS IN HERE -->
+  {% endblock scripts %}

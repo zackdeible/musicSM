@@ -1,0 +1,33 @@
+{% extends "userTopMusic.html" %}
+
+<div class="row">
+  <div class="col-sm">
+    <h3>Top 5 Songs</h3>
+
+    <ul class="list-group" style="max-height:75vh; overflow:scroll">
+      {% for track in searchResults.items %}
+
+
+      <li class="list-group-item">
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-2 col-lg-1 album-pic">
+            <img src="{{ track.album.images.2.url }}" width="80" height="75" alt="">
+          </div>
+          <div class="col-7 col-lg-9">
+            <div class="row">
+              <div class="col-12 ml-6">
+                {{ track.name }}
+              </div>
+              <div class="col-12 ml-6">
+                <p>{{ track.artists.0.name }}</p>
+              </div>
+            </div>
+          </div>
+
+      </li>
+      {% endfor %}
+
+
+    </ul>
+
+  </div>

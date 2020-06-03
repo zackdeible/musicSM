@@ -26,7 +26,12 @@
 	background-color: #67009a
 }
 
-
+.btn-artist {
+	background-color: black;
+	color: #B3B4B5;
+	
+	
+}
 
 #logo-image {
 	height: 30px;
