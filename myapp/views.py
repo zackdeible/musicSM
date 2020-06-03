@@ -1,53 +1,68 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import path
+import urllib.parse
 from .models import Playlist, Track, Profile
 import requests, json
 
-token = ''
+from django.conf import settings
+
+#token = ''
+authCode = ''
+
+def getValidToken():
+    global authCode
+    url = "https://accounts.spotify.com/api/token"
+
+
+
+    payload = ('grant_type=authorization_code&code='+
+                authCode +
+                '&redirect_uri=http%3A//127.0.0.1%3A8000')
+    headers = {
+      'Authorization': 'Basic YTk5Njg1ZjgzNWQyNDBjYjg3OTE1OGYyMTgzYmEwMDA6ODJkZmNjMzVkN2MxNGNhNzlhOGJjOGIyN2YwYmMzMzA=',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+
+    response = requests.request("POST", url, headers=headers, data = payload)
+
+    token = response.json()['access_token']
+    print("---------------------",token)
+    return token
 
 # Create your views here.
-
-
 def home(request):
     # Get the token code in the url
+    ## TODO: make this not horrible
+    global authCode
     authCode = request.GET.get('code')
 
     if authCode != None:
-
-        global token
         if request.method == 'GET':
-            url = "https://accounts.spotify.com/api/token"
-
-
-
-            payload = ('grant_type=authorization_code&code='+
-                        authCode +
-                        '&redirect_uri=http%3A//127.0.0.1%3A8000')
-            headers = {
-              'Authorization': 'Basic YTk5Njg1ZjgzNWQyNDBjYjg3OTE1OGYyMTgzYmEwMDA6ODJkZmNjMzVkN2MxNGNhNzlhOGJjOGIyN2YwYmMzMzA=',
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-
-            response = requests.request("POST", url, headers=headers, data = payload)
-
-            token = response.json()['access_token']
-            print("---------------------",token)
-            return render(request, 'myapp/userTopMusic.html')
+            return redirect('/userTopMusic')#render(request, 'myapp/userTopMusic.html')
 
     else:
         return render(request, 'myapp/musicServiceAuth.html')
 
 def authRedirect(request):
-    scope = 'user-top-read playlist-modify-public'
-    return redirect('https://accounts.spotify.com/en/authorize?client_id=a99685f835d240cb879158f2183ba000&redirect_uri=http:%2F%2F127.0.0.1:8000&response_type=code&scope='+
-    scope)
+    scope = str('user-top-read playlist-modify-public')
+    redirectUrl = ''
+    if settings.STAGE == 'development':
+        redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
+    elif settings.STAGE == 'production':
+        redirectUrl = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
+
+    clientId = settings.SOCIAL_AUTH_SPOTIFY_KEY
+    print(redirectUrl, "------------------------")
+    redirectFullUrl = 'https://accounts.spotify.com/en/authorize?client_id='+clientId+'&redirect_uri='+redirectUrl+'&response_type=code&scope='+scope
+    print(redirectFullUrl)
+    return redirect(redirectFullUrl)
 
 def musicServiceAuth(request):
      return render(request, 'myapp/musicServiceAuth.html')
 
 def search(request):
-    global token
+    token = getValidToken()
 
     if request.method == 'POST':
         query = request.POST['search']
@@ -187,7 +202,7 @@ def export_playlist(request):
     # 3.1) look up all the songs of that playlist name, get the spotify ids in a list format
     # 4) add tracks to that playlist with: https://api.spotify.com/v1/playlists/{playlist_id}/tracks
 
-    global token
+    token = getValidToken()
 
     print("WE MADE IT HERE BBY")
 
@@ -214,7 +229,7 @@ def export_playlist(request):
 
 def get_users_top_music(request):
 
-    global token
+    token = getValidToken()
 
     authToken = token
     headers = {
