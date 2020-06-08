@@ -1,10 +1,10 @@
 {% extends "front.html" %}
 
 {% load static %}
-
+<link rel="stylesheet" href="{% static "css/main.css" %}">
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
-<link rel="stylesheet" href="{% static "css/main.css" %}">
+
 {% endblock links %}
 
 
@@ -20,41 +20,34 @@
 
     <div class="header">
 
+      <img src="">
       <h1 style="color: #5C2C92;">@BudUpMusic</h1>
       <p style="color: #B3B4B5;">What are you listening to during quarantine?</p>
-      <div class="container">
-        <img src="{% static "images/buduplogo.jpeg" %}" alt="logo" style="width:500px;height:600px;">
-      </div>
-
 
 
     </div>
 
   <!-- PUT YOUR Top 5 Songs IN HERE -->
-
   <div class="row">
     <div class="col-sm">
       <h3 style="color: #56BC66;">Top 5 Songs</h3>
 
       <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
         {% for track in searchResults.items %}
+
         <li>
           <div class="row d-flex flex-wrap align-items-center">
             <div class="col-1 ml-1">
               </div>
-          <div class="col-1 ml-1">
-            </div>
-
             <div class="col-2 col-lg-1 album-pic">
-                <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
+              <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
             </div>
-
             <div class="col-7 col-lg-9">
               <div class="row">
                 <div class="col-12 ml-6">
                   <a style="color: white">{{ track.name }}</a>
-                </div>
 
+                </div>
                 <div class="col-12 ml-6">
                   <p>{{ track.artists.0.name }}</p>
                 </div>
@@ -63,14 +56,21 @@
 
         </li>
         {% endfor %}
+
+
       </ol>
+
     </div>
-  </div>
+
   <div class="container">
-    <a href="/extractPlaylist/" style="float:left; color: #B3B4B5;">Extract Playlist</a>
-    <a href="/artists/" class="btn-artist" style="float:right; color: #56BC66;" id="right-button"> Top 5 Artists </a>
+    <a href="/artists/" style="color: #56BC66" class="btn-artist" id="right-button"> Top 5 Artists </a>
+
   </div>
+
+
+
   </div>
+
   </body>
   {% endblock body %}
 
@@ -79,8 +79,4 @@
 
   {% block scripts %}
   <!-- PUT JS LINKS IN HERE -->
-  <script type="text/javascript">
-    console.log()
-
-  </script>
   {% endblock scripts %}

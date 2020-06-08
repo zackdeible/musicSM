@@ -9,7 +9,12 @@ if settings.STAGE == 'production':
         path('', views.home, name='homeAuth'),
         path('musicServiceAuth', views.musicServiceAuth, name='musicServiceAuth'),
         path('authRedirect', views.authRedirect, name='testing'),
-        path('userTopMusic/', views.get_users_top_music, name='user-top-music')
+        path('userTopMusic/', views.get_users_top_music, name='user-top-music'),
+        path('artists/', views.get_users_top_artists, name='user-top-artists'),
+        path('songs/', views.get_users_top_songs, name='user-top-songs'),
+        path('exportPlaylist/', views.export_playlist, name='export-playlist'),
+        path('extractPlaylist/', views.extract_playlist, name='extract-playlist')
+
 
     ]
 elif settings.STAGE == 'development':
