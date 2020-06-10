@@ -1,0 +1,56 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<body style="background-color: black;">
+  <div class="container">
+    <h1>{{ searchResults }}</h1>
+    <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
+      {% for track in searchResults.items %}
+
+      <li>
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-1 ml-1">
+            </div>
+          <div class="col-2 col-lg-1 album-pic">
+            <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
+          </div>
+          <div class="col-7 col-lg-9">
+            <div class="row">
+              <div class="col-12 ml-6">
+                <a style="color: white">{{ track.tracks.items }}</a>
+
+              </div>
+              <div class="col-12 ml-6">
+                <p>{{ track.artists.0.name }}</p>
+              </div>
+            </div>
+          </div>
+
+      </li>
+      {% endfor %}
+
+
+    </ol>
+
+  </div>
+
+</body>
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import path
 import urllib.parse
 from .models import Playlist, Track, Profile
@@ -212,14 +212,7 @@ def export_playlist(request):
     token = global_token
     #print("WE MADE IT HERE BBY")
     if request.method=='POST':
-        print("REQUEST.POST", request.POST)
-        playlist_name = request.POST.get("searchResults")
-        print("NAMEE", playlist_name)
-
-
-
-
-
+        playlist_name = request.POST.get("playlist-name")
 
     authToken = token
     #print("TOKEN",token)
@@ -237,28 +230,50 @@ def export_playlist(request):
 
     #create_playlist_url = ('https://api.spotify.com/v1/users/{'+user_id+'}/playlists')
 
-    playlist_name = "TestingAgain"
-
     url = "https://api.spotify.com/v1/users/"+user_id+"/playlists"
 
     payload = "{\n    \"name\": \""+playlist_name+"\"\n}"
     headers = {
     'content-type': 'application/json',
     'Authorization': 'Bearer '+authToken,
-    'Content-Type': 'text/plain',
-    'Cookie': 'sp_m=us; sp_t=7e695c87-b1ef-491a-bd88-7df6fab9e443; spot=%7B%22t%22%3A1587238554%2C%22m%22%3A%22us%22%2C%22p%22%3Anull%7D'
+
     }
 
-    #create_playlist = requests.request("POST", url, headers=headers, data = payload)
+    create_playlist = requests.request("POST", url, headers=headers, data = payload)
 
     #print(create_playlist.text.encode('utf8'))
 
+    playlist_id_json = create_playlist.json()
+    playlist_id = playlist_id_json['id']
+
+
     ######## get songs to add to playlists
+    top_song_dict = get_top_songs(50)
+
+    print("--------",top_song_dict['items'][1]['uri'])
+
+    top_song_data = top_song_dict['items']
+    playlist_uris_list = ''
+
+    for song in top_song_data:
+        #print(song['uri
+        song_string = str(song['uri'])
+        playlist_uris_list = playlist_uris_list+song_string+"\", \""
+
+    # This is weird but need to format it for the API call and this jenky ass way deletes the extra "" at the end
+    new_set = playlist_uris_list[:-4]
+
+    #print(str(playlist_uris_list))
+
+    data_formatted = "{\n    \"uris\": [\""+new_set+"\"]\n}"
+
+    # add songs to the playlist
+
+    url_add = 'https://api.spotify.com/v1/playlists/'+playlist_id+'/tracks'
+    add_songs = requests.request("POST", url_add, headers=headers, data=data_formatted)
 
 
-
-
-    return render(request, 'myapp/extractPlaylist.html')
+    return render(request, 'myapp/exportPlaylist.html', {'searchResults': top_song_dict})
 
 
 def get_users_top_music(request):
@@ -287,11 +302,6 @@ def get_users_top_music(request):
     response1 = requests.request("GET", url_artists, headers=headers)
 
     artist_rjson = response1.json()
-
-
-
-
-
 
     return render(request, 'myapp/userTopMusic.html', {'searchResults': rjson, 'artists': artist_rjson})
 
@@ -337,6 +347,8 @@ def get_users_top_songs(request):
 
     return render(request, 'myapp/songs.html', {'searchResults': rjson})
 
+
+
 # extracts your top 50 songs to view, and then you click button and it calls export_playlist function
 def extract_playlist(request):
     global global_token
@@ -356,3 +368,32 @@ def extract_playlist(request):
     rjson = response.json()
 
     return render(request, 'myapp/extractPlaylist.html', {'searchResults': rjson})
+
+
+
+#######################################################
+#------------------Helper Functions-------------------#
+#######################################################
+
+# Get amount of top songs (could att term paramter too)
+def get_top_songs(amount):
+    global global_token
+
+    authToken = global_token
+    headers = {
+      'Authorization': 'Bearer '+authToken
+    }
+
+    amount = str(amount)
+
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit='+amount+'&time_range=short_term')
+    print(url_tracks)
+
+    response = requests.request("GET", url_tracks, headers=headers)
+
+
+
+    rjson = response.json()
+
+
+    return rjson
