@@ -19,12 +19,17 @@
   <div class="container">
 
     <div class="header">
+      <div class="row">
+        <div class="container">
+          <img src="{% static "images/budupmusicLogo.png" %}" alt="logo" style="width:60px;height:60px;">
+          <h2 style="color: #5C2C92; float:right;">@BudUpMusic</h2>
+        </div>
 
-      <h1 style="color: #5C2C92;">@BudUpMusic</h1>
-      <p style="color: #B3B4B5;">What are you listening to during quarantine?</p>
-      <div class="container">
-        <img src="{% static "images/buduplogo.jpeg" %}" alt="logo" style="width:500px;height:600px;">
       </div>
+
+
+      <p style="color: #B3B4B5;">What are you listening to during quarantine?</p>
+
 
 
 
@@ -36,7 +41,7 @@
     <div class="col-sm">
       <h3 style="color: #56BC66;">Top 5 Songs</h3>
 
-      <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
+      <ol class="steps list-group">
         {% for track in searchResults.items %}
         <li>
           <div class="row d-flex flex-wrap align-items-center">

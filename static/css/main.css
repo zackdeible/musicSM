@@ -90,7 +90,7 @@
 .steps li::before {
   content: counter(inst);
 
-  /*background: #5C2C92;
+  background: #5C2C92;
 	/*color: #56BC66; */
 	color: white;
 
