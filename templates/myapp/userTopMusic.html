@@ -72,8 +72,17 @@
     </div>
   </div>
   <div class="container">
-    <a href="/extractPlaylist/" style="float:left; color: #B3B4B5;">Extract Playlist</a>
-    <a href="/artists/" class="btn-artist" style="float:right; color: #56BC66;" id="right-button"> Top 5 Artists </a>
+    <form id="extractForm" action="/extractPlaylist/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
+    </form>
+    <form id="topArtistForm" action="/artists/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" class="btn-artist" style="float:right; color: #56BC66;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
+    </form>
+
   </div>
   </div>
   </body>
@@ -85,7 +94,28 @@
   {% block scripts %}
   <!-- PUT JS LINKS IN HERE -->
   <script type="text/javascript">
-    console.log()
+    window.onload=()=> {
+      console.log("Hello WOrld")
+      console.log('{{ token }}')
+      localStorage.setItem('token','{{ token }}')
+    }
+
+    // $('#extractPlaylistButton').click((event) => {
+    //   event.preventDefault();
+    //   console.log('clicked extract playlist');
+    //   $.ajax({
+    //     type: 'GET',
+    //     url: '/extractPlaylist/',
+    //     data: {
+    //       csrfmiddlewaretoken: "{{ csrf_token }}",
+    //       token: localStorage.getItem('token')
+    //     },
+    //     success : () => {
+    //       console.log('SUCCESS');
+    //       window.location.href = '/extractPlaylist'
+    //     }
+    //   })
+    // })
 
   </script>
   {% endblock scripts %}

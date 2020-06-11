@@ -11,38 +11,66 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
+
 <body style="background-color: black;">
-  <div class="container">
-    <h1>{{ searchResults }}</h1>
-    <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
-      {% for track in searchResults.items %}
-
-      <li>
-        <div class="row d-flex flex-wrap align-items-center">
-          <div class="col-1 ml-1">
-            </div>
-          <div class="col-2 col-lg-1 album-pic">
-            <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
-          </div>
-          <div class="col-7 col-lg-9">
-            <div class="row">
-              <div class="col-12 ml-6">
-                <a style="color: white">{{ track.tracks.items }}</a>
-
-              </div>
-              <div class="col-12 ml-6">
-                <p>{{ track.artists.0.name }}</p>
-              </div>
-            </div>
-          </div>
-
-      </li>
-      {% endfor %}
 
 
-    </ol>
+ <div class="container">
+    <div class="header">
+      <div class="row">
+        <div class="container">
+          <h2 style="color: #5C2C92;">Enjoy your QT Wrapped!</h2>
+        </div>
+        
 
-  </div>
+        </div>
+
+      </div>
+            
+
+      </div>
+
+<ul class="list-unstyled">
+  <!-- Info Block -->
+  <li class="u-indicator-steps py-3">
+    <div class="media align-items-center border rounded p-5">
+      <div class="row">
+        <!-- <span class="display-4 text-primary font-weight-small"><img src="{% static "images/spotifyLogooo.jpg" %}" alt="logo" style="width:200px; display: inline-block;height:200px;"></span> -->
+        <img class="img-fluid" src="{% static "assets/img/160x160/img15.png" %}" alt="Image Description">
+      </div>
+      <div class="row-8">
+        
+            <p>Proceed to the Spotify app and your playlist will appear under the name that you entered upon creation.</p>
+            <a class="btn btn-sm btn-block btn-success" href="/authRedirect">Spotify</a>
+       
+        
+      </div>
+  </li>
+  <!-- End Info Block -->
+
+    <!-- Info Block -->
+  <li class="u-indicator-steps py-3">
+
+  <div class="media align-items-center border rounded p-5">
+        <div class="row">
+          <!-- <span class="display-4 text-primary font-weight-small"><img src="{% static "images/spotifyLogooo.jpg" %}" alt="logo" style="width:200px; display: inline-block;height:200px;"></span> -->
+          <span class="display-4 text-primary font-weight-medium"><img src="{% static "images/budupmusicLogo.png" %}" alt="logo" style="width:80px; float:right; height:80px;"></span>
+        </div>
+        <div class="row-8">
+          
+              <p class="mb-0">If you experience issues, refresh the app and make sure you are online.</p>
+              <a class="btn btn-sm btn-block btn-success" href="/authRedirect">Email Us</a>
+         
+        </div>
+  </li>
+  <!-- End Info Block -->
+
+    
+<!--B3B4B5 56BC7A 5C2C92 56BC66-->
+
+
+
+
 
 </body>
 

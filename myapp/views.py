@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import path
 import urllib.parse
 from .models import Playlist, Track, Profile
@@ -7,15 +7,15 @@ import requests, json
 
 from django.conf import settings
 
-global_token = ''
-authCode = ''
 
-def getValidToken():
-    global authCode
-    print("WHAT IS THIS CODE", authCode)
+#######################################################
+#------------------ Authentication-------------------#
+#######################################################
+
+def getValidToken(authCode):
+
+
     url = "https://accounts.spotify.com/api/token"
-
-
 
     payload = ('grant_type=authorization_code&code='+
                 authCode +
@@ -29,21 +29,25 @@ def getValidToken():
 
     token = response.json()['access_token']
     print("---------------------",token)
-    global global_token
-    global_token = token
     return token
 
 # Create your views here.
 def home(request):
     # Get the token code in the url
     ## TODO: make this not horrible
-    global authCode
+
     authCode = request.GET.get('code')
 
     if authCode != None:
         print("AUTHCODE", authCode)
+        token = getValidToken(authCode)
         if request.method == 'GET':
-            return redirect('/userTopMusic')#render(request, 'myapp/userTopMusic.html')
+            #return redirect('user-top-music',token=token)
+            #return redirect('/userTopMusic?token='+token)#render(request, 'myapp/userTopMusic.html')
+            short_term = 'short_term'
+            data = get_top_songs(token, 5, short_term)
+
+            return render(request, 'myapp/userTopMusic.html', {'searchResults': data, 'token': token})
 
     else:
         return render(request, 'myapp/musicServiceAuth.html')
@@ -64,6 +68,15 @@ def authRedirect(request):
 
 def musicServiceAuth(request):
      return render(request, 'myapp/musicServiceAuth.html')
+
+#######################################################
+#------------------End Authentication-------------------#
+#######################################################
+
+
+#######################################################
+#------------------Not currently used -------------------#
+#######################################################
 
 def search(request):
     token = getValidToken()
@@ -108,6 +121,7 @@ def search(request):
         #print(response.text.encode('utf8'))
 
     return render(request, 'myapp/search.html', {'searchResults':rjson, 'playlists': playlist})
+
 
 #saves a playlist
 def playlists(request):
@@ -199,6 +213,48 @@ def playlist_data(request):
 
     return render(request, 'myapp/playlists.html')
 
+# I dont think this is used
+def get_users_top_music(request):
+    print('GET',request.GET)
+    token = request.GET.get('token')
+
+    print('TOKEN',token)
+
+    headers = {
+      'Authorization': 'Bearer '+token
+    }
+
+    print("HEADERS",headers)
+
+    # get users top tracks frin the personalization endpoint
+
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term')
+    print(url_tracks)
+
+    response = requests.request("GET", url_tracks, headers=headers)
+
+    rjson = response.json()
+
+    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term')
+    print(url_artists)
+
+    response1 = requests.request("GET", url_artists, headers=headers)
+
+    artist_rjson = response1.json()
+
+    return render(request, 'myapp/userTopMusic.html', {'searchResults': rjson, 'artists': artist_rjson, 'token': token})
+
+
+#######################################################
+#------------------END Not currently used -------------------#
+#######################################################
+
+
+#######################################################
+#------------------Currently In Production-------------------#
+#######################################################
+
+# Calls spotify API for userprofile, calls spotify api to get top 50 songs, calls spotify API to add songs to playlist that we just made
 def export_playlist(request):
 
     # 1) get auth TOKEN
@@ -207,9 +263,11 @@ def export_playlist(request):
     # 3.1) look up all the songs of that playlist name, get the spotify ids in a list format
     # 4) add tracks to that playlist with: https://api.spotify.com/v1/playlists/{playlist_id}/tracks
 
-    #token = getValidToken()
-    global global_token
-    token = global_token
+
+    print("-----------------", request.POST)
+
+    token = request.POST.get('token')
+
     #print("WE MADE IT HERE BBY")
     if request.method=='POST':
         playlist_name = request.POST.get("playlist-name")
@@ -230,6 +288,7 @@ def export_playlist(request):
 
     #create_playlist_url = ('https://api.spotify.com/v1/users/{'+user_id+'}/playlists')
 
+
     url = "https://api.spotify.com/v1/users/"+user_id+"/playlists"
 
     payload = "{\n    \"name\": \""+playlist_name+"\"\n}"
@@ -248,7 +307,7 @@ def export_playlist(request):
 
 
     ######## get songs to add to playlists
-    top_song_dict = get_top_songs(50)
+    top_song_dict = get_top_songs(authToken, 50, 'short_term')
 
     print("--------",top_song_dict['items'][1]['uri'])
 
@@ -276,40 +335,13 @@ def export_playlist(request):
     return render(request, 'myapp/exportPlaylist.html', {'searchResults': top_song_dict})
 
 
-def get_users_top_music(request):
 
-    token = getValidToken()
 
-    authToken = token
-    headers = {
-      'Authorization': 'Bearer '+authToken
-    }
 
-    print("HEADERS",headers)
-
-    # get users top tracks frin the personalization endpoint
-
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term')
-    print(url_tracks)
-
-    response = requests.request("GET", url_tracks, headers=headers)
-
-    rjson = response.json()
-
-    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term')
-    print(url_artists)
-
-    response1 = requests.request("GET", url_artists, headers=headers)
-
-    artist_rjson = response1.json()
-
-    return render(request, 'myapp/userTopMusic.html', {'searchResults': rjson, 'artists': artist_rjson})
-
-# Render top artist page
+# Render top artist page and get top artists -> need to make helper function
 def get_users_top_artists(request):
-    global global_token
 
-    authToken = global_token
+    authToken = request.POST.get('token')
 
     print("--------------", authToken)
     headers = {
@@ -324,41 +356,29 @@ def get_users_top_artists(request):
     artist_rjson = response1.json()
     print("ARTISTS", artist_rjson)
 
-    return render(request, 'myapp/topArtists.html', {'artists': artist_rjson})
+    return render(request, 'myapp/topArtists.html', {'artists': artist_rjson, 'token': authToken})
 
+# render top songs
 def get_users_top_songs(request):
-    global global_token
+    token = request.POST.get('token')
 
-    authToken = global_token
-    headers = {
-      'Authorization': 'Bearer '+authToken
-    }
+    data = get_top_songs(token, 5, 'short_term')
 
-    print("HEADERS",headers)
 
-    # get users top tracks frin the personalization endpoint
-
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term')
-    print(url_tracks)
-
-    response = requests.request("GET", url_tracks, headers=headers)
-
-    rjson = response.json()
-
-    return render(request, 'myapp/songs.html', {'searchResults': rjson})
+    return render(request, 'myapp/songs.html', {'searchResults': data, 'token': token})
 
 
 
 # extracts your top 50 songs to view, and then you click button and it calls export_playlist function
+# I think just used in rendering right now
 def extract_playlist(request):
-    global global_token
-
-    authToken = global_token
+    authToken = request.POST.get('token')
+    print(authToken)
     headers = {
       'Authorization': 'Bearer '+authToken
     }
 
-    # get users top tracks frin the personalization endpoint
+    # get users top tracks from the personalization endpoint
 
     url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term')
     print(url_tracks)
@@ -367,7 +387,7 @@ def extract_playlist(request):
 
     rjson = response.json()
 
-    return render(request, 'myapp/extractPlaylist.html', {'searchResults': rjson})
+    return render(request, 'myapp/extractPlaylist.html', {'searchResults': rjson, 'token':authToken})
 
 
 
@@ -375,25 +395,19 @@ def extract_playlist(request):
 #------------------Helper Functions-------------------#
 #######################################################
 
-# Get amount of top songs (could att term paramter too)
-def get_top_songs(amount):
-    global global_token
+# Get amount of top songs (could add artists/tracks paramter too)
+def get_top_songs(authToken, amount, time_range):
 
-    authToken = global_token
+    # Authorization
     headers = {
       'Authorization': 'Bearer '+authToken
     }
 
     amount = str(amount)
 
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit='+amount+'&time_range=short_term')
-    print(url_tracks)
+    # Call api, could add another param of type (artists or tracks)
 
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit='+amount+'&time_range='+time_range)
     response = requests.request("GET", url_tracks, headers=headers)
-
-
-
     rjson = response.json()
-
-
     return rjson
