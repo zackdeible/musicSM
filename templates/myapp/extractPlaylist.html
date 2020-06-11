@@ -13,8 +13,10 @@
 <!-- PUT YOUR BODY IN HERE -->
 <body style="background-color: black;">
   <div class="container">
-    <form action="/exportPlaylist/" method="post" class="js-form-message">
+    <form id="extractPlaylistForm" action="/exportPlaylist/" method="post" class="js-form-message">
       {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+
       <div class="row">
         <div class="col-sm">
           <h3 style="color: #56BC66;">Top 50 Songs</h3>
@@ -43,7 +45,7 @@
                     </div>
                   </div>
                 </div>
-                
+
             </li>
             {% endfor %}
           </ol>
@@ -121,6 +123,7 @@
         }
       }
     });
+
 
     // initialization of forms
     $.HSCore.components.HSFocusState.init();

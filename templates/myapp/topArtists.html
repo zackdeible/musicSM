@@ -65,8 +65,11 @@
 
   </div>
   <div class="container">
-    <a href="/songs/" class="btn-artist" id="right-button" style="color: #56BC66"> Top 5 Songs </a>
-
+    <form id="topSongForm" action="/songs/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" class="btn-artist" style="float:right; color: #56BC66;" id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Top 5 Songs </a>
+    </form>
   </div>
 
 

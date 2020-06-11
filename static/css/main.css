@@ -86,13 +86,19 @@
 
   position: relative;
   counter-increment: inst;
+
 }
 .steps li::before {
   content: counter(inst);
 
-  background: #5C2C92;
+  /*background: #5C2C92;
 	/*color: #56BC66; */
+	/*background: grey;*/
+	/*color: grey;*/
+
 	color: white;
+
+
 
 
   font-size: 1em;
