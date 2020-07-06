@@ -18,9 +18,9 @@ def getValidToken(authCode):
     url = "https://accounts.spotify.com/api/token"
 
     if settings.STAGE == 'development':
-        redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
+        redirect_uri = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
     elif settings.STAGE == 'production':
-        redirectUrl = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
+        redirect_uri = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
 
     payload = ('grant_type=authorization_code&code='+
                 authCode +
