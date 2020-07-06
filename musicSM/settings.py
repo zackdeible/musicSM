@@ -115,7 +115,7 @@ SOCIAL_AUTH_SPOTIFY_SECRET = '82dfcc35d7c14ca79a8bc8b27f0bc330'
 STAGE = 'production'
 
 DEVELOPMENT_AUTH_REDIRECT = 'http://127.0.0.1:8000'
-PRODUCTION_AUTH_REDIRECT = 'http://127.0.0.1:8000'
+PRODUCTION_AUTH_REDIRECT = 'https://warm-peak-19154.herokuapp.com/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
