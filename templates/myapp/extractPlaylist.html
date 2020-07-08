@@ -11,7 +11,12 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-<body style="background-color: black;">
+<body style="background-color: white;">
+
+
+  <!-- PUT YOUR HOME IN HERE -->
+
+
   <div class="container">
     <form id="extractPlaylistForm" action="/exportPlaylist/" method="post" class="js-form-message">
       {% csrf_token %}
@@ -19,14 +24,16 @@
 
       <div class="row">
         <div class="col-sm">
-          <h3 style="color: #56BC66;">Top 50 Songs</h3>
+          <h3 class ="text-warning";>Top 50 Songs</h3>
 
           <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
             {% for track in searchResults.items %}
-            <li>
+
+            <ul>
               <div class="row d-flex flex-wrap align-items-center">
                 <div class="col-1 ml-1">
                   </div>
+
               <div class="col-1 ml-1">
                 </div>
 
@@ -34,9 +41,9 @@
                     <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
                 </div>
 
-                <div class="col-7 col-lg-9">
+                <div class="col-8 col-lg-9">
                   <div class="row">
-                    <div class="col-12 ml-6">
+                    <div class="col ml-6">
                       <a style="color: white">{{ track.name }}</a>
                     </div>
 
@@ -46,18 +53,21 @@
                   </div>
                 </div>
 
-            </li>
+            </ul>
             {% endfor %}
-          </ol>
-        </div>
-      </div>
 
+
+          </ol>
+
+        </div>
+
+  </div>
       <!-- Subscribe Section -->
   <div class="position-relative space-bottom-2">
     <div class="container space-top-2 space-top-md-3">
       <!-- Title -->
       <div class="text-center w-md-60 mx-auto mb-7">
-        <h2 style="color: #56BC66;" class="text"><span class="font-weight-semi-bold">Save</span> your quarentine playlist</h2>
+        <h2 class ="text-warning;" class="text"><span class="font-weight-semi-bold">Save</span> your quarentine playlist</h2>
         <p>Give it a name and export and go check Spotify.</p>
       </div>
       <!-- End Title -->
