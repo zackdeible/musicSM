@@ -10,7 +10,7 @@
 
 {% block body %}
 
-<body style="background-color: black;">
+<body style="background-color: white;">
 
 
 <!-- PUT YOUR HOME IN HERE -->
@@ -21,32 +21,34 @@
     <div class="header">
 
       <img src="">
-      <h1 style="color: #5C2C92;">@BudUpMusic</h1>
-      <p style="color: #B3B4B5;">What are you listening to during quarantine?</p>
+
+      <p class="text-dark"; font-size: 25px;>What are you listening to during quarantine?</p> 
 
 
     </div>
 
   <!-- PUT YOUR Top 5 Songs IN HERE -->
+
   <div class="row">
     <div class="col-sm">
-      <h3 style="color: #56BC66;">Top 5 Songs</h3>
+      <h3 class ="text-warning";>Top 5 Songs</h3>
 
-      <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
+      <ul class="steps list-group" style="max-height:75vh; overflow:scroll">
         {% for track in searchResults.items %}
 
-        <li>
-          <div class="row d-flex flex-wrap align-items-center">
-            <div class="col-1 ml-1">
-              </div>
+        <ul>
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-1 ml-1">
+            </div>
+            
             <div class="col-2 col-lg-1 album-pic">
               <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
-            </div>
-            <div class="col-7 col-lg-9">
-              <div class="row">
-                <div class="col-12 ml-6">
-                  <a style="color: white">{{ track.name }}</a>
 
+            </div>
+            <div class="col-8 col-lg-9">
+              <div class="row">
+                <div class="col ml-6">
+                  <a style="color: black">{{ track.name }}</a>
                 </div>
                 <div class="col-12 ml-6">
                   <p>{{ track.artists.0.name }}</p>
@@ -54,7 +56,7 @@
               </div>
             </div>
 
-        </li>
+        </ul>
         {% endfor %}
 
 
@@ -62,11 +64,13 @@
 
     </div>
 
+  </div>  
+
   <div class="container">
     <form id="topArtistForm" action="/artists/" method="post">
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="btn-artist" style="float:right; color: #56BC66;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
+      <a href="#" class="btn-artist text-warning" style="float:right;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
     </form>
   
 
@@ -83,5 +87,24 @@
 
 
   {% block scripts %}
+
+
+
+
+
+
+
   <!-- PUT JS LINKS IN HERE -->
   {% endblock scripts %}
+
+
+
+
+
+
+
+
+
+
+
+
