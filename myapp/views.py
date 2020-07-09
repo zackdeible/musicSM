@@ -20,7 +20,8 @@ def getValidToken(authCode):
     if settings.STAGE == 'development':
         redirect_uri = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
     elif settings.STAGE == 'production':
-        redirect_uri = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
+        # CHANGE BEFORE PUSHING
+        redirect_uri = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
 
     payload = ('grant_type=authorization_code&code='+
                 authCode +
@@ -49,7 +50,7 @@ def home(request):
         if request.method == 'GET':
             #return redirect('user-top-music',token=token)
             #return redirect('/userTopMusic?token='+token)#render(request, 'myapp/userTopMusic.html')
-            short_term = 'short_term'
+            short_term = 'medium_term'
             data = get_top_songs(token, 5, short_term)
 
             return render(request, 'myapp/userTopMusic.html', {'searchResults': data, 'token': token})
@@ -63,7 +64,8 @@ def authRedirect(request):
     if settings.STAGE == 'development':
         redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
     elif settings.STAGE == 'production':
-        redirectUrl = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
+        # CHANGE BEFORE PUSHING
+        redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
 
     clientId = settings.SOCIAL_AUTH_SPOTIFY_KEY
     print(redirectUrl, "------------------------")
@@ -233,14 +235,14 @@ def get_users_top_music(request):
 
     # get users top tracks frin the personalization endpoint
 
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term')
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term')
     print(url_tracks)
 
     response = requests.request("GET", url_tracks, headers=headers)
 
     rjson = response.json()
 
-    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term')
+    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=medium_term')
     print(url_artists)
 
     response1 = requests.request("GET", url_artists, headers=headers)
@@ -312,7 +314,7 @@ def export_playlist(request):
 
 
     ######## get songs to add to playlists
-    top_song_dict = get_top_songs(authToken, 50, 'short_term')
+    top_song_dict = get_top_songs(authToken, 50, 'medium_term')
 
     print("--------",top_song_dict['items'][1]['uri'])
 
@@ -353,7 +355,7 @@ def get_users_top_artists(request):
       'Authorization': 'Bearer '+authToken
     }
 
-    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=short_term')
+    url_artists = ('https://api.spotify.com/v1/me/top/artists?limit=5&time_range=medium_term')
 
 
     response1 = requests.request("GET", url_artists, headers=headers)
@@ -367,7 +369,7 @@ def get_users_top_artists(request):
 def get_users_top_songs(request):
     token = request.POST.get('token')
 
-    data = get_top_songs(token, 5, 'short_term')
+    data = get_top_songs(token, 5, 'medium_term')
 
 
     return render(request, 'myapp/songs.html', {'searchResults': data, 'token': token})
@@ -385,7 +387,7 @@ def extract_playlist(request):
 
     # get users top tracks from the personalization endpoint
 
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=short_term')
+    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=medium_term')
     print(url_tracks)
 
     response = requests.request("GET", url_tracks, headers=headers)

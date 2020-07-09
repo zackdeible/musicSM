@@ -11,7 +11,7 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-<body style="background-color: white;">
+<body class="gradient-half-primary-v2">
 
 
   <!-- PUT YOUR HOME IN HERE -->
@@ -22,46 +22,6 @@
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
 
-      <div class="row">
-        <div class="col-sm">
-          <h3 class ="text-warning";>Top 50 Songs</h3>
-
-          <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
-            {% for track in searchResults.items %}
-
-            <ul>
-              <div class="row d-flex flex-wrap align-items-center">
-                <div class="col-1 ml-1">
-                  </div>
-
-              <div class="col-1 ml-1">
-                </div>
-
-                <div class="col-2 col-lg-1 album-pic">
-                    <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
-                </div>
-
-                <div class="col-8 col-lg-9">
-                  <div class="row">
-                    <div class="col ml-6">
-                      <a style="color: white">{{ track.name }}</a>
-                    </div>
-
-                    <div class="col-12 ml-6">
-                      <p>{{ track.artists.0.name }}</p>
-                    </div>
-                  </div>
-                </div>
-
-            </ul>
-            {% endfor %}
-
-
-          </ol>
-
-        </div>
-
-  </div>
       <!-- Subscribe Section -->
   <div class="position-relative space-bottom-2">
     <div class="container space-top-2 space-top-md-3">
@@ -91,6 +51,42 @@
 
   </div>
   <!-- End Subscribe Section -->
+
+
+      <div class="row">
+        <div class="col-sm">
+          <h3 class ="text-dark">Playlist</h3>
+
+            {% for track in searchResults.items %}
+
+            <ul class="list-group bg-transparent">
+              <li class="list-group-item bg-transparent">
+                <div class="row d-flex flex-wrap align-items-center">
+
+                  <div class="col-2 col-lg-1 album-pic">
+                      <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
+                  </div>
+
+                  <div class="col-8 col-lg-9">
+                    <div class="row">
+                      <div class="col ml-6">
+                        <a>{{ track.name }}</a>
+                      </div>
+
+                      <div class="col-12 ml-6">
+                        <a>{{ track.artists.0.name }}</a>
+                      </div>
+                    </div>
+                  </div>
+
+              </li>
+
+            </ul>
+            {% endfor %}
+
+        </div>
+
+  </div>
 
     </form>
 
