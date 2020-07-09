@@ -9,7 +9,8 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-<body style="background-color: white;">
+
+<body class="gradient-half-primary-v4">
 
 
 <!-- PUT YOUR HOME IN HERE -->
@@ -18,54 +19,42 @@
   <div class="container">
 
     <div class="header">
-      <div class="row">
-        <div class="container">
-  
-     
-        </div>
-
-      </div>
-
 
       <p class="text-dark"; font-size: 25px;>What are you listening to during quarantine?</p>
-
-
-
-
     </div>
 
   <!-- PUT YOUR Top 5/50 Songs IN HERE -->
 
   <div class="row">
     <div class="col-sm">
-      <h3 class ="text-warning";>Top 5 Artists</h3>
+      <h3 class ="text-primary">Top 5 Artists</h3>
 
-      <ol class="steps list-group" style="max-height:75vh; overflow:scroll">
+
         {% for artist in artists.items %}
 
-
-        <ul>
-        <div class="row d-flex flex-wrap align-items-center">
-          <div class="col-1 ml-1">
-            </div>
-
-          <div class="col-2 col-lg-1 album-pic">
-            <img src="{{ artist.images.2.url }}" width="90" height="90" alt="">
- 
-          </div>
-          <div class="col-8 col-lg-9">
-            <div class="row">
-              <div class="col ml-6">
-                <a style="color: black">{{ artist.name }}</a>
+        <ul class="list-group bg-transparent">
+          <li class="list-group-item bg-transparent">
+            <div class="row d-flex flex-wrap align-items-center">
+              <div class="col-2 col-lg-1 album-pic">
+                <img src="{{ artist.images.2.url }}" width="90" height="90" alt="">
               </div>
-            </div>
-          </div>
+              <div class="col-1 ml-2">
+                </div>
+              <div class="col-8 col-lg-9">
+                <div class="row">
+                  <div class="col ml-6">
+                    <a style="color: black">{{ artist.name }}</a>
+                  </div>
+                </div>
+              </div>
+
+          </li>
+
 
       </ul>
       {% endfor %}
 
 
-      </ol>
 
     </div>
 
@@ -73,13 +62,20 @@
 
 
   </div>
-  <div class="container">
+
+  <form id="extractForm" action="/extractPlaylist/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+    <a href="#" class="text-dark" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
+
+  </form>
+
     <form id="topSongForm" action="/songs/" method="post">
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="btn-artist text-warning" style="float:right;" id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Top 5 Songs </a>
+      <a href="#" class="btn-artist text-dark" style="float:right;" id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Top 5 Songs </a>
     </form>
-  </div>
+
 
 
 
@@ -94,32 +90,3 @@
   {% block scripts %}
   <!-- PUT JS LINKS IN HERE -->
   {% endblock scripts %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

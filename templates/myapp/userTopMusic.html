@@ -10,7 +10,7 @@
 
 {% block body %}
 
-<body style="background-color: white;">
+<body class="gradient-half-warning-v1">
 
 
 <!-- PUT YOUR HOME IN HERE -->
@@ -19,82 +19,65 @@
   <div class="container">
 
     <div class="header">
-      <div class="row">
-        <div class="container">
-  
-     
-        </div>
-
-      </div>
-
 
       <p class="text-dark"; font-size: 25px;>What are you listening to during quarantine?</p>
-
-
-
-
     </div>
-
   <!-- PUT YOUR Top 5 Songs IN HERE -->
-
   <div class="row">
     <div class="col-sm">
       <h3 class ="text-warning";>Top Songs</h3>
 
-      <ol class="steps list-group">
+
         {% for track in searchResults.items %}
+        <ul class="list-group bg-transparent">
+          <li class="list-group-item bg-transparent">
+            <div class="row d-flex flex-wrap align-items-center">
 
+            <div class="col-2 col-lg-1 album-pic">
 
-
-
-        <ul>
-          <div class="row d-flex flex-wrap align-items-center">
-            <div class="col-1 ml-1">
+                  <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
               </div>
-
-          <div class="col-2 col-lg-1 album-pic">
-            
-
-       
-                <img src="{{ track.album.images.2.url }}" width="90" height="90" alt="">
-            </div>
-
-            <div class="col-8 col-lg-9">
-              <div class="row">
-                <div class="col ml-6">
-                  <a class="text-dark"style="color: white">{{ track.name }}</a>
+              <div class="col-1 ml-2">
                 </div>
 
-                <div class="col-12 ml-6">
-                  <p>{{ track.artists.0.name }}</p>
+              <div class="col-8 col-lg-9">
+                <div class="row">
+                  <div class="col ml-6">
+                    <a class="text-dark"style="color: white">{{ track.name }}</a>
+                  </div>
+
+                  <div class="col-12 ml-6">
+                    <a>{{ track.artists.0.name }}</a>
+                  </div>
                 </div>
               </div>
-            </div>
+
+          </li>
 
         </ul>
         {% endfor %}
 
-      </ol>
+
 
     </div>
 
 
   </div>
-  <div class="container">
+
     <form id="extractForm" action="/extractPlaylist/" method="post">
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="text-warning" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
+      <a href="#" class="text-dark" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
 
     </form>
     <form id="topArtistForm" action="/artists/" method="post">
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="btn-artist text-warning" style="float:right; color: #56BC66;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
+      <a href="#" class="btn-artist text-dark" style="float:right; color: #56BC66;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
     </form>
 
   </div>
-  </div>
+
   </body>
   {% endblock body %}
 
