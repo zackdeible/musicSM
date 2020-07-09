@@ -21,7 +21,7 @@ def getValidToken(authCode):
         redirect_uri = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
     elif settings.STAGE == 'production':
         # CHANGE BEFORE PUSHING
-        redirect_uri = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
+        redirect_uri = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
 
     payload = ('grant_type=authorization_code&code='+
                 authCode +
@@ -65,7 +65,7 @@ def authRedirect(request):
         redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
     elif settings.STAGE == 'production':
         # CHANGE BEFORE PUSHING
-        redirectUrl = urllib.parse.quote_plus(settings.DEVELOPMENT_AUTH_REDIRECT)
+        redirectUrl = urllib.parse.quote_plus(settings.PRODUCTION_AUTH_REDIRECT)
 
     clientId = settings.SOCIAL_AUTH_SPOTIFY_KEY
     print(redirectUrl, "------------------------")
