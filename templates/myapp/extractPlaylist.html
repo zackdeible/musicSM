@@ -5,6 +5,7 @@
 
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
+
 {% endblock links %}
 
 
@@ -15,7 +16,34 @@
 
 
   <!-- PUT YOUR HOME IN HERE -->
+ <div class="container">
+    <div class="header">
+    <nav class="nav nav-classic nav-shadow">
+      <form id="topSongForm" action="/songs/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a class="nav-item nav-link" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();">Songs</a>
+    </form>
+      
+      <form id="extractForm" action="/extractPlaylist/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+    <a href="#"class="nav-item nav-link active text-dark" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
+  </form>
 
+     <form id="topArtistForm" action="/artists/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" class="nav-item nav-link" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
+    </form>
+    
+  </nav>
+    
+
+      </div>
+            
+
+      </div>
 
   <div class="container">
     <form id="extractPlaylistForm" action="/exportPlaylist/" method="post" class="js-form-message">
@@ -24,10 +52,10 @@
 
       <!-- Subscribe Section -->
   <div class="position-relative space-bottom-2">
-    <div class="container space-top-2 space-top-md-3">
+    <div class="container">
       <!-- Title -->
       <div class="text-center w-md-60 mx-auto mb-7">
-        <h2 class ="text-warning;" class="text"><span class="font-weight-semi-bold">Save</span> your quarentine playlist</h2>
+        <h2 class ="text-warning;" class="text"><span class="font-weight-semi-bold">Save</span> your quarantine playlist</h2>
         <p>Give it a name and export and go check Spotify.</p>
       </div>
       <!-- End Title -->
