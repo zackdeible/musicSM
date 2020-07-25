@@ -24,15 +24,15 @@
 
       <a class="nav-item nav-link active text-dark" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Songs </a>
     </form>
-      
+
       <form id="extractForm" action="/extractPlaylist/" method="post">
     {% csrf_token %}
     <input type="hidden" name="token" value="{{ token }}">
     <a href="#"class="nav-item nav-link" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
-   
+
   </form>
-      
-    
+
+
         <form id="topArtistForm" action="/artists/" method="post">
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
@@ -48,11 +48,11 @@
 
   <div class="container">
 
-  
+
   <!-- PUT YOUR Top 5 Songs IN HERE -->
   <div class="row">
     <div class="col-sm">
-      <h3 class ="text-warning";>Top Songs</h3>
+      <h3 class ="text-dark";>Top Songs</h3>
 
 
         {% for track in searchResults.items %}
@@ -92,8 +92,8 @@
   </div>
 
 
-   
-  
+
+
 
   </div>
 
