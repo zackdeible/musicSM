@@ -10,18 +10,41 @@
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
 
-<body class="gradient-half-primary-v4">
+<body class>
+  <div class="container">
+    <div class="header">
+    <nav class="nav nav-classic nav-shadow">
+      <form id="topSongForm" action="/songs/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+
+      <a class="nav-item nav-link" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Songs </a>
+    </form>
+
+      
+      <form id="extractForm" action="/extractPlaylist/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+    <a href="#"class="nav-item nav-link" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
+    </form>
+
+      </form id="topArtistForm" action="/artists/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" class="nav-item nav-link active text-dark" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
+    </form>
+
+    </nav>
+
+      </div>
+            
+      </div>
 
 
 <!-- PUT YOUR HOME IN HERE -->
 
 
   <div class="container">
-
-    <div class="header">
-
-      <p class="text-dark"; font-size: 25px;>What are you listening to during quarantine?</p>
-    </div>
 
   <!-- PUT YOUR Top 5/50 Songs IN HERE -->
 
@@ -63,19 +86,7 @@
 
   </div>
 
-  <form id="extractForm" action="/extractPlaylist/" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="token" value="{{ token }}">
-    <a href="#" class="text-dark" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
-
-  </form>
-
-    <form id="topSongForm" action="/songs/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="btn-artist text-dark" style="float:right;" id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Top 5 Songs </a>
-    </form>
-
+ 
 
 
 

@@ -10,18 +10,45 @@
 
 {% block body %}
 
-<body class="gradient-half-warning-v1">
+<body>
 
 
 <!-- PUT YOUR HOME IN HERE -->
 
+ <div class="container">
+    <div class="header">
+    <nav class="nav nav-classic nav-shadow">
+      <form id="topSongForm" action="/songs/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+
+      <a class="nav-item nav-link active text-dark" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Songs </a>
+    </form>
+      
+      <form id="extractForm" action="/extractPlaylist/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+    <a href="#"class="nav-item nav-link" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
+   
+  </form>
+      
+    
+        <form id="topArtistForm" action="/artists/" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+      <a href="#" class="nav-item nav-link" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
+    </form>
+    </nav>
+      
+
+
+            
+
+      </div>
 
   <div class="container">
 
-    <div class="header">
-
-      <p class="text-dark"; font-size: 25px;>What are you listening to during quarantine?</p>
-    </div>
+  
   <!-- PUT YOUR Top 5 Songs IN HERE -->
   <div class="row">
     <div class="col-sm">
@@ -64,17 +91,9 @@
 
   </div>
 
-    <form id="extractForm" action="/extractPlaylist/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="text-dark" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();" style="float:left; color: #B3B4B5;">Extract Playlist</a>
 
-    </form>
-    <form id="topArtistForm" action="/artists/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="btn-artist text-dark" style="float:right; color: #56BC66;" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();"> Top 5 Artists </a>
-    </form>
+   
+  
 
   </div>
 
