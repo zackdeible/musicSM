@@ -1,0 +1,455 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+<link rel="stylesheet" href="{% static "assets/vendor/flatpickr/dist/flatpickr.min.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/slick-carousel/slick/slick.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/slick-carousel/slick/slick.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/fancybox/jquery.fancybox.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/slick-carousel/slick/slick.css" %}">
+<link rel="stylesheet" href="{% static "assets/vendor/cubeportfolio/css/cubeportfolio.min.css" %}">
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+{% csrf_token %}
+
+
+<body style="background-color: black;">
+
+  <!-- <header>
+    <div class="container">
+      <div class="row">
+        <img src="{% static "images/budupmusicLogo.png" %}" alt="logo" style="width:80px;height:80px; float:left;">
+        <h1 style="float-right">BudUpMusic</h1>
+      </div>
+    </div>
+
+  </header> -->
+
+
+  <!-- Hero Section -->
+<div class="js-slick-carousel u-slick u-slick--equal-height"
+     data-fade="true"
+     data-infinite="true"
+     data-autoplay="true"
+     data-speed="10000"
+     data-pagi-classes="text-center u-slick__pagination u-slick__pagination--white position-absolute right-0 bottom-0 left-0 mb-4 mb-0">
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://townsquare.media/site/838/files/2020/05/rtj4.jpg?w=980&q=75');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h1 class="text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Discover what you listened to over quarentine</h1>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" href="/authRedirect"
+           data-scs-animation-in="fadeInUp">Discover Now </a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/7/71/Future_-_High_Off_Life.png');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h2 class="h1 text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Listen to your quarantine playlist now</h2>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" href="/authRedirect"
+           data-scs-animation-in="fadeInUp">Listen Now</a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_90,w_1400/fl_lossy,pg_1/wktu1cpyyyayw8ygrxoy/drake-dark-lane-demo-tapes-album-cover');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h2 class="h1 text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Share your music with your friends, see who has the best playlest</h2>
+          <p class="text-white-70 mb-7"
+             data-scs-animation-in="fadeInUp"></p>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" href="../blog/single-article-classic.html"
+           data-scs-animation-in="fadeInUp">Share Now</a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://www.atlanticrecords.com/sites/g/files/g2000003466/f/styles/latest-release-images/public/202006/Screen%20Shot%202020-06-08%20at%2011.06.29%20AM.png?itok=aM4HSWF7');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h1 class="text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Discover what you listened to over quarentine</h1>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" 
+			href="/authRedirect"
+           data-scs-animation-in="fadeInUp">Discover Now </a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://sslh.ulximg.com/image/1200x1200crop/cover/1591366416_210006abdbcc83032c52135f9f99ae26.jpg/939b0816e00334c7f1f508e6f77461b0/1591366416_c3501380e32d762a35a09e79e97ca67d.jpg');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h1 class="text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Discover what you listened to over quarentine</h1>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" href="../blog/single-article-classic.html"
+           data-scs-animation-in="fadeInUp">Discover Now </a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+  <div class="js-slide gradient-overlay-half-dark-v1 bg-img-hero space-3 min-height-lg-100vh" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/7/73/Trevor_Daniel_-_Falling.png');">
+    <!-- Hero News -->
+    <div class="container d-lg-flex align-items-lg-center">
+      <article class="js-scroll-effect position-relative w-lg-60 text-center mx-lg-auto"
+               data-scroll-effect="smoothFadeToBottom"
+               data-scroll-effect-speed="500">
+        <!-- Share Social Networks -->
+        <div data-scs-animation-in="fadeInUp">
+          <ul class="list-inline mb-4">
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-facebook-f btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-google btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-twitter btn-icon__inner"></span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a class="btn btn-sm btn-icon btn-soft-light btn-bg-transparent rounded-circle" href="#">
+                <span class="fab fa-github btn-icon__inner"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <!-- End Share Social Networks -->
+
+        <!-- Info -->
+        <div class="mb-4">
+          <h1 class="text-white font-weight-semi-bold mb-3"
+              data-scs-animation-in="fadeInUp">Discover what you listened to over quarentine</h1>
+        </div>
+        <a class="btn text-dark btn-white btn-pill btn-wide transition-3d-hover" href="../blog/single-article-classic.html"
+           data-scs-animation-in="fadeInUp">Discover Now </a>
+        <!-- End Info -->
+      </article>
+    </div>
+    <!-- End Hero News -->
+  </div>
+
+</div>
+<!-- End Hero Section -->
+
+
+  
+
+
+</body>
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/cubeportfolio/js/jquery.cubeportfolio.min.js" %}"></script>
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/js/components/hs.cubeportfolio.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of cubeportfolio
+    $.HSCore.components.HSCubeportfolio.init('.cbp');
+  });
+</script>
+
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/typed.js/lib/typed.min.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of text animation (typing)
+    var typed = new Typed(".u-text-animation-v2.u-text-animation-v2--typing", {
+      strings: ["your favirote artists.", "your quarentine playlist.", "what you think of the idea."],
+      typeSpeed: 60,
+      loop: true,
+      backSpeed: 25,
+      backDelay: 1500
+    });
+  });
+</script>
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/svg-injector/dist/svg-injector.min.js" %}"></script>
+<script src="{% static "assets/vendor/slick-carousel/slick/slick.js" %}"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.slick-carousel.js" %}"></script>
+<script src="{% static "assets/js/components/hs.svg-injector.js" %}"></script>
+<script src="{% static "assets/js/components/hs.go-to.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(window).on('load', function () {
+    // initialization of svg injector module
+    $.HSCore.components.HSSVGIngector.init('.js-svg-injector');
+  });
+
+  $(document).on('ready', function () {
+    // initialization of slick carousel
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+    // initialization of go to
+    $.HSCore.components.HSGoTo.init('.js-go-to');
+  });
+</script>
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/slick-carousel/slick/slick.js" %}"></script>
+
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.slick-carousel.js" %}"></script>
+<script src="{% static "assets/js/components/hs.scroll-effect.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of slick carousel
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+    // initialization of scroll effect component
+    $.HSCore.components.HSScrollEffect.init('.js-scroll-effect');
+  });
+</script>
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.validation.js"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(document).on('ready', function () {
+    // initialization of form validation
+    $.HSCore.components.HSValidation.init('.js-validate');
+  });
+</script>
+
+<!-- JS Implementing Plugins -->
+<script src="{% static "assets/vendor/slick-carousel/slick/slick.js" %}"></script>
+<script src="{% static "assets/vendor/svg-injector/dist/svg-injector.min.js" %}"></script>
+
+<!-- JS Front -->
+<script src="{% static "assets/js/components/hs.svg-injector.js" %}"></script>
+<script src="{% static "assets/js/components/hs.slick.js" %}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+  $(window).on('load', function () {
+    // initialization of svg injector module
+    $.HSCore.components.HSSVGIngector.init('.js-svg-injector');
+
+    // initialization of slick carousel
+    $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+  });
+</script>
+
+
+
+
+
+
+
+{% endblock scripts %}
