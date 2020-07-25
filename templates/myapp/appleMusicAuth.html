@@ -1,0 +1,63 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+Apple Music Test
+
+<button id="apple-music-authorize">dumb</button>
+
+<button id="apple-music-unauthorize">BITCH</button>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+<script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"></script>
+
+<script>
+  document.addEventListener('musickitloaded', function() {
+  // MusicKit global is now defined
+  MusicKit.configure({
+    developerToken: '{{ token }}',
+    app: {
+      name: 'My Cool Web App',
+      build: '1978.4.1'
+    }
+  });
+  let music = MusicKit.getInstance();
+
+ // This is called with or without authorization:
+ music.player.play();
+
+ // This ensures user authorization before calling play():
+ music.authorize().then(function() {
+   music.player.play();
+ });
+
+ // You can wrap any method to ensure authorization before calling:
+ music.authorize().then(function(value) {
+ 	console.log('HERE IS YOUR GAY TOKEN',value);
+ 	/*
+   music.api.library.albums.then(function(cloudAlbums) {
+   	console.log(cloudAlbums)
+     // user's cloudAlbums
+   });
+   */
+ });
+});
+
+
+
+</script>
+{% endblock scripts %}

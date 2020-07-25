@@ -4,8 +4,71 @@ from django.urls import path
 import urllib.parse
 from .models import Playlist, Track, Profile
 import requests, json
+import datetime
+import jwt
 
 from django.conf import settings
+
+#######################################################
+#------------------ Apple Music API-------------------#
+#######################################################
+def apple_music_auth(request):
+    #secret = """
+    #-----BEGIN PRIVATE KEY-----
+    #MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
+    #-----END PRIVATE KEY-----"""
+    #secret = "https://api.music.apple.com/v1/catalog/us/songs/203709340"
+    #secret = '-----BEGIN PUBLIC KEY-----\n' + 'MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv' + '\n-----END PUBLIC KEY-----'
+    #secret = '-----BEGIN PUBLIC KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv-----END PUBLIC KEY-----'
+    #secret = '3GNG4X7MEN.music.com.musicSM'
+    secret = """-----BEGIN PRIVATE KEY-----
+MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
+-----END PRIVATE KEY-----"""
+    teamId = "3GNG4X7MEN"
+    keyId = "9M495JYKHU"
+    alg = 'ES256'
+
+    time_now = datetime.datetime.now()
+    time_expired = datetime.datetime.now() + datetime.timedelta(hours=12)
+
+    headers = {
+        "alg": alg,
+        "kid": keyId
+        }
+
+    payload = {
+        "iss": teamId,
+        "exp": int(time_expired.timestamp()),
+        "iat": int(time_now.timestamp())
+    }
+
+
+
+    token = jwt.encode(payload, secret, algorithm=alg, headers=headers)
+
+    print("----TOKEN----")
+    print(token)
+    token_str = token.decode('utf-8')
+
+    headers1 = {
+      'Authorization': 'Bearer '+token_str
+    }
+
+    print("HEADERS",headers1)
+
+    # get users top tracks frin the personalization endpoint
+
+    url_tracks = ('https://api.music.apple.com/v1/catalog/us/artists/178834')
+    print(url_tracks)
+
+    response = requests.request("GET", url_tracks, headers=headers1)
+    print(response.json())
+    #rjson = response.json()
+    #print(rjson)
+
+
+
+    return render(request, 'myapp/appleMusicAuth.html', {'token': token_str})
 
 
 #######################################################

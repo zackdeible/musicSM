@@ -27,6 +27,12 @@ elif settings.STAGE == 'development':
         path('playlistData/', views.playlist_data, name='playlist-data'),
         path('addToPlaylist/', views.add_to_playlist, name='add-to-playlist'),
         path('exportPlaylist/', views.export_playlist, name='export-playlist'),
-        path('userTopMusic/', views.get_users_top_music, name='user-top-music')
+        path('musicServiceAuth', views.musicServiceAuth, name='musicServiceAuth'),
+        path('authRedirect', views.authRedirect, name='testing'),
+        path('userTopMusic/', views.get_users_top_music, name='user-top-music'),
+        path('artists/', views.get_users_top_artists, name='user-top-artists'),
+        path('songs/', views.get_users_top_songs, name='user-top-songs'),
+        path('extractPlaylist/', views.extract_playlist, name='extract-playlist'),
+        path('appleMusicAuth/', views.apple_music_auth, name='apple-music-auth')
 
     ]
