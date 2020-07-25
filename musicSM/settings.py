@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-#import django_heroku
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -112,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 SOCIAL_AUTH_SPOTIFY_KEY = 'a99685f835d240cb879158f2183ba000'
 SOCIAL_AUTH_SPOTIFY_SECRET = '82dfcc35d7c14ca79a8bc8b27f0bc330'
 
-STAGE = 'development'
+STAGE = 'production'
 
 DEVELOPMENT_AUTH_REDIRECT = 'http://127.0.0.1:8000'
 PRODUCTION_AUTH_REDIRECT = 'https://warm-peak-19154.herokuapp.com/'
@@ -138,4 +138,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join("static"), )
 
 # Activate Django-Heroku.
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
