@@ -12,15 +12,7 @@ from django.conf import settings
 #######################################################
 #------------------ Apple Music API-------------------#
 #######################################################
-def apple_music_auth(request):
-    #secret = """
-    #-----BEGIN PRIVATE KEY-----
-    #MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
-    #-----END PRIVATE KEY-----"""
-    #secret = "https://api.music.apple.com/v1/catalog/us/songs/203709340"
-    #secret = '-----BEGIN PUBLIC KEY-----\n' + 'MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv' + '\n-----END PUBLIC KEY-----'
-    #secret = '-----BEGIN PUBLIC KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv-----END PUBLIC KEY-----'
-    #secret = '3GNG4X7MEN.music.com.musicSM'
+def getValidAppleToken():
     secret = """-----BEGIN PRIVATE KEY-----
 MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
 -----END PRIVATE KEY-----"""
@@ -41,14 +33,43 @@ MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFo
         "exp": int(time_expired.timestamp()),
         "iat": int(time_now.timestamp())
     }
-
-
-
     token = jwt.encode(payload, secret, algorithm=alg, headers=headers)
-
-    print("----TOKEN----")
-    print(token)
     token_str = token.decode('utf-8')
+    return token_str
+
+def apple_user_top_music(request):
+    devToken = getValidAppleToken()
+    token = request.GET.get('userToken')
+    print(token)
+    headers1 = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+token
+    }
+
+    print("HEADERS",headers1)
+
+    # get users top tracks frin the personalization endpoint
+
+    url_tracks = ('https://api.music.apple.com/v1/me/history/heavy-rotation?limit=10')
+    print(url_tracks)
+
+    response = requests.request("GET", url_tracks, headers=headers1)
+
+    return render(request, 'myapp/appleUserTopMusic.html', {'data': response.json()})
+
+def apple_music_auth(request):
+    #secret = """
+    #-----BEGIN PRIVATE KEY-----
+    #MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
+    #-----END PRIVATE KEY-----"""
+    #secret = "https://api.music.apple.com/v1/catalog/us/songs/203709340"
+    #secret = '-----BEGIN PUBLIC KEY-----\n' + 'MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv' + '\n-----END PUBLIC KEY-----'
+    #secret = '-----BEGIN PUBLIC KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv-----END PUBLIC KEY-----'
+    #secret = '3GNG4X7MEN.music.com.musicSM'
+
+
+
+    token_str = getValidAppleToken()
 
     headers1 = {
       'Authorization': 'Bearer '+token_str
@@ -71,8 +92,9 @@ MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFo
     return render(request, 'myapp/appleMusicAuth.html', {'token': token_str})
 
 
+
 #######################################################
-#------------------ Authentication-------------------#
+#------------------ Python Authentication-------------------#
 #######################################################
 
 def getValidToken(authCode):

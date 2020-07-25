@@ -1,0 +1,29 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<!-- Here is my token
+<span id="userTokenSpan"></span> -->
+<h1>{{ data }}</h1>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+<!-- <script>
+window.onload = (event) => {
+  document.getElementById('userTokenSpan').innerHTML = localStorage.getItem('userToken')
+}
+</script> -->
+{% endblock scripts %}

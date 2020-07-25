@@ -11,11 +11,7 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-Apple Music Test
 
-<button id="apple-music-authorize">dumb</button>
-
-<button id="apple-music-unauthorize">BITCH</button>
 {% endblock body %}
 
 
@@ -48,6 +44,37 @@ Apple Music Test
  // You can wrap any method to ensure authorization before calling:
  music.authorize().then(function(value) {
  	console.log('HERE IS YOUR GAY TOKEN',value);
+  //localStorage.setItem('userToken',value)
+  window.location = '/appleUserTopMusic?userToken='+encodeURIComponent(value);
+
+
+  /*
+  $.ajax({
+    type: 'POST',
+    url: '/appleUserTopMusic/',
+    data: { csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
+          state:"inactive",
+          userToken:value,
+
+        },
+    success: () => {
+      console.log
+    }
+    //console.log('poop '+playlists+trackname+albumname+albumpic+spotifyurl);
+  })
+
+  $(document).ajaxSuccess(function(event, request, settings) {
+
+      window.location = '/appleUserTopMusic/';
+      console.log(request)
+
+    });
+  */
+
+  // localStorage.setItem('token',value)
+  //
+  // window.location.href = '/appleUserTopMusic/';
+
  	/*
    music.api.library.albums.then(function(cloudAlbums) {
    	console.log(cloudAlbums)
