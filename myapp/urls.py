@@ -13,7 +13,9 @@ if settings.STAGE == 'production':
         path('artists/', views.get_users_top_artists, name='user-top-artists'),
         path('songs/', views.get_users_top_songs, name='user-top-songs'),
         path('exportPlaylist/', views.export_playlist, name='export-playlist'),
-        path('extractPlaylist/', views.extract_playlist, name='extract-playlist')
+        path('extractPlaylist/', views.extract_playlist, name='extract-playlist'),
+        path('appleMusicAuth/', views.apple_music_auth, name='apple-music-auth'),
+        path('appleUserTopMusic/', views.apple_user_top_music, name='apple-user-top-music')
 
 
     ]
