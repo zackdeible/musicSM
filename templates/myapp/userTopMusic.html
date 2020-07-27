@@ -19,25 +19,22 @@
     <div class="header">
     <nav class="nav nav-classic nav-shadow">
       <form id="topSongForm" action="/songs/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ token }}">
-
-      <a class="nav-item nav-link active text-dark" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();"> Songs </a>
-    </form>
+        {% csrf_token %}
+        <input type="hidden" name="token" value="{{ token }}">
+        <a class="nav-item nav-link active text-dark" href=# id="topSongButton" onclick="document.getElementById('topSongForm').submit();" > Songs </a>
+      </form>
 
       <form id="extractForm" action="/extractPlaylist/" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="token" value="{{ token }}">
-    <a href="#"class="nav-item nav-link" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
+        {% csrf_token %}
+        <input type="hidden" name="token" value="{{ token }}">
+        <a href="#"class="nav-item nav-link" id="extractPlaylistButton" onclick="document.getElementById('extractForm').submit();">Playlist</a>
+      </form>
 
-  </form>
-
-
-        <form id="topArtistForm" action="/artists/" method="post">
-      {% csrf_token %}
-      <input type="hidden" name="token" value="{{ token }}">
-      <a href="#" class="nav-item nav-link" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
-    </form>
+      <form id="topArtistForm" action="/artists/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="token" value="{{ token }}">
+        <a href="#" class="nav-item nav-link" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
+      </form>
     </nav>
       
 

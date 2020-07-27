@@ -50,10 +50,15 @@ def apple_user_top_music(request):
 
     # get users top tracks frin the personalization endpoint
 
-    url_tracks = ('https://api.music.apple.com/v1/me/history/heavy-rotation?limit=10')
+    url_tracks = ('https://api.music.apple.com/v1/me/recent/played')
     print(url_tracks)
 
+
     response = requests.request("GET", url_tracks, headers=headers1)
+
+    print("------------", response)
+
+    print("REQUEST", response.json())
 
     return render(request, 'myapp/appleUserTopMusic.html', {'data': response.json()})
 
