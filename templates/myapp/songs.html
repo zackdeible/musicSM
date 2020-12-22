@@ -37,6 +37,14 @@
       <a href="#" class="nav-item nav-link" id="topArtistButton" onclick="document.getElementById('topArtistForm').submit();">Artists </a>
     </form>
 
+    <form id="searchForm" action="/search/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="token" value="{{ token }}">
+
+    <a class="nav-item nav-link active text-dark" href=# id="searchButton" onclick="document.getElementById('searchForm').submit();"> Search </a>
+  </form>
+
+
 
 
 

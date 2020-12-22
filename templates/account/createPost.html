@@ -1,0 +1,31 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<h4>Make a Post</h4>
+<form action="/account/savePost/" method="post">
+  {% csrf_token %}
+  <input type="text" placeholder="Subject" name="subject" value="">
+  <input type="text" placeholder="Content" name="content" value="">
+  <input type="submit" name="" value="Post">
+
+</form>
+
+<a class="ml-2" href="{% url 'home' %}">Home</a>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}

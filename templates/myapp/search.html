@@ -126,8 +126,13 @@ function sendAddPlaylistRequest() {
     <!-- End Title -->
 
     <!-- Search Jobs Form -->
-    <form class="row mb-2" action="/search" method="post">
+    <form class="row mb-2" action="/search/" method="post">
       {% csrf_token %}
+
+      
+
+
+
       <div class="col-lg-5 mb-4 mb-lg-0">
         <!-- Input -->
         <label class="d-block">
@@ -149,7 +154,8 @@ function sendAddPlaylistRequest() {
 
 
       <div class="col-lg-2 align-self-lg-end">
-        <button type="submit" value="submit" class="btn btn-block btn-success transition-3d-hover">Search</button>
+        <a class="nav-item nav-link active text-dark" href=# id="searchButton" onclick="document.getElementById('searchForm').submit();"> Search </a>
+        <button type="submit" onclick="document.getElementById('searchForm').submit();" value="submit" class="btn btn-block btn-success transition-3d-hover">Search</button>
       </div>
       <!-- End Checkbox -->
     </form>

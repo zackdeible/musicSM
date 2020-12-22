@@ -10,28 +10,27 @@
 
 
 {% block body %}
-<!-- PUT YOUR BODY IN HERE -->
-<h1>{{ tracksInPlaylist }}</h1>
-<h1>{{ recentlyPlayed }}</h1>
-<h1>{{ data3 }}</h1>
 
+<<h1>Search</h1>
+<form class="" action="/account/search/" method="post">
+  {% csrf_token %}
+  <input type="text" name="search" value="">
+  <input type="submit" name="" value="Search">
 
-<h1>{{ data2.data.0.attributes.name }}</h1>
-<h1>{{ data.id }}</h1>
+</form>
+
 <ul class="list-group" style="max-height:75vh; overflow:scroll">
-  {% for result in data2.data.0.attributes %}
+  {% for result in searchResults.tracks.items %}
   <li class="list-group-item">
     <div class="row d-flex flex-wrap align-items-center">
       <div class="col-2 col-lg-1 album-pic">
         <img src="{{ result.album.images.2.url }}" alt="">
-        <div class="play">
-          <img src="http://cdn1.iconfinder.com/data/icons/flavour/button_play_blue.png" onclick="playPreview('{{ result.preview_url }}')" />
-        </div>
+
       </div>
       <div class="col-8 col-lg-9">
         <div class="row">
           <div class="col-12 ml-3">
-            <p value="{{ result }}">{{ result }}</p>
+            <p value="{{ result.name }}">{{ result.name }}</p>
           </div>
           <div class="col-12 ml-3">
             {{ result.artists.0.name }}
@@ -66,14 +65,6 @@
   </li>
   {% endfor %}
 </ul>
-<a href="{% url 'apple-music-search' %}">Search</a>
-
-
-
-
-
-
-
 {% endblock body %}
 
 
@@ -81,9 +72,4 @@
 
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
-<!-- <script>
-window.onload = (event) => {
-  document.getElementById('userTokenSpan').innerHTML = localStorage.getItem('userToken')
-}
-</script> -->
 {% endblock scripts %}

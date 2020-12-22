@@ -1,0 +1,63 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+{% for user in users %}
+
+<ul class="list-group bg-transparent">
+  <li class="list-group-item bg-transparent">
+    <div class="row d-flex flex-wrap align-items-center">
+
+
+      <div class="col-8 col-lg-9">
+        <div class="row">
+          <div class="col ml-6">
+            <a>{{ user }}</a>
+          </div>
+
+          <div class="col-12 ml-6">
+            {% if cur_user in user.follower.all %}
+            <form class="" action="/account/unfollow/" method="post">
+              {% csrf_token %}
+                <input type="hidden" name="username" value="{{ user }}">
+                <input type="submit" class="btn btn-outline-secondary" name="Unfollow" value="Unfollow">
+            </form>
+            {% else %}
+            <form class="" action="/account/follow/" method="post">
+              {% csrf_token %}
+                <input type="hidden" name="username" value="{{ user }}">
+                <input type="submit" class="btn btn-outline-secondary" name="Follow" value="Follow">
+            </form>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+
+  </li>
+
+</ul>
+
+
+{% endfor %}
+<a class="ml-2" href="{% url 'feed' %}">Feed</a>
+<a class="ml-2" href="{% url 'home' %}">Home</a>
+
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}

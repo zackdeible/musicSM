@@ -1,0 +1,30 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<h4>Edit Description</h4>
+<form class="" action="/account/changeDescription/" method="post">
+  {% csrf_token %}
+  <input type="text" name="description" value="">
+  <input type="submit" name="" value="Change">
+
+</form>
+
+ <a class="ml-2" href="{% url 'home' %}">Home</a>
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}
