@@ -1,0 +1,155 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<!-- Here is my token
+<span id="userTokenSpan"></span> -->
+<!-- PUT YOUR BODY IN HERE -->
+<div class="container">
+  <!-- Hero Section -->
+
+  <div class="container space-2">
+    <!-- Title -->
+    <div class="mb-7">
+      <span class="d-block text-secondary">Get access to millions of songs in one place.</span>
+      <h1 class="text-success font-weight-semi-bold">Collab and discover new music</h1>
+    </div>
+    <!-- End Title -->
+
+    <!-- Search Jobs Form -->
+    <form class="row mb-2" action="/appleMusicSearch/" method="post">
+      {% csrf_token %}
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <!-- Input -->
+        <label class="d-block">
+          <span class="h6 d-block text-dark font-weight-semi-bold mb-0">Search any song, album, or artist</span>
+        </label>
+        <div class="js-focus-state">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Song, album, or artist" aria-label="Company or title" aria-describedby="keywordInputAddon">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <span class="fas fa-search" id="keywordInputAddon"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- End Input -->
+      </div>
+
+
+
+      <div class="col-lg-2 align-self-lg-end">
+        <button type="submit" value="submit" class="btn btn-block btn-success transition-3d-hover">Search</button>
+      </div>
+      <!-- End Checkbox -->
+    </form>
+    <!-- End Search Jobs Form -->
+  </div>
+
+
+  <!-- End SVG Icon -->
+
+
+<!-- End Hero Section -->
+<h1>{{ data.results.songs.data.0 }}</h1>
+
+
+<h1>{{ data.results.songs.data.0.attributes.previews }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.artwork }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.artistName }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.url }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.discNumber }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.genreNames }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.durationInMillis }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.releaseDate }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.name }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.isrc }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.hasLyrics }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.albumName }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.playParams }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.trackNumber }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.composerName }}</h1>
+<h1>{{ data.results.songs.data.0.attributes.contentRating }}</h1>
+
+
+    <ul class="list-group" style="max-height:75vh; overflow:scroll">
+      {% for result in data.results.songs.data.0.attributes %}
+      <li class="list-group-item">
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-2 col-lg-1 album-pic">
+            <img src="{{ result.album.images.2.url }}" alt="">
+            <div class="play">
+              <img src="http://cdn1.iconfinder.com/data/icons/flavour/button_play_blue.png" onclick="playPreview('{{ result.preview_url }}')" />
+            </div>
+          </div>
+          <div class="col-8 col-lg-9">
+            <div class="row">
+              <div class="col-12 ml-3">
+                <p value="{{ result.name }}">{{ result }}</p>
+              </div>
+              <div class="col-12 ml-3">
+                {{ result.songs }}
+              </div>
+            </div>
+          </div>
+          <div class="col-2 col-lg-2">
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                  <div class="p-2">
+                    <i class="fas fa-plus" method="POST" action="playlist-data" data-toggle="modal"
+                    data-target="#exampleModal" data-trackname="{{ result.name }}"
+                    data-trackartist="{{ result.artists.0.name }}"
+                    data-albumname="{{ result.album.name }}"
+                    data-albumpic="{{ result.album.images.2.url }}"
+                    data-spotifyurl="{{ result.album.external_urls.spotify }}"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                  <div class="p-2">
+                    <a class="track-link text-right text-success" href="{{ result.external_urls.spotify }}">Full Song</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <a href="{% url 'apple-user-top-music' %}">Profile</a>
+
+
+
+
+
+
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+<!-- <script>
+window.onload = (event) => {
+  document.getElementById('userTokenSpan').innerHTML = localStorage.getItem('userToken')
+}
+</script> -->
+{% endblock scripts %}

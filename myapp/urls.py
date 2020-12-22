@@ -21,7 +21,7 @@ elif settings.STAGE == 'development':
     urlpatterns = [
         path('', views.home, name='homeAuth'),
         path('playlists/', views.playlists, name='playlists'),
-        path('search', views.search, name='search'),
+        path('search/', views.search, name='search'),
         path('musicServiceAuth', views.musicServiceAuth, name='musicServiceAuth'),
         path('authRedirect', views.authRedirect, name='testing'),
         path('playlistData/', views.playlist_data, name='playlist-data'),
@@ -34,6 +34,7 @@ elif settings.STAGE == 'development':
         path('songs/', views.get_users_top_songs, name='user-top-songs'),
         path('extractPlaylist/', views.extract_playlist, name='extract-playlist'),
         path('appleMusicAuth/', views.apple_music_auth, name='apple-music-auth'),
-        path('appleUserTopMusic/', views.apple_user_top_music, name='apple-user-top-music')
+        path('appleUserTopMusic/', views.apple_user_top_music, name='apple-user-top-music'),
+        path('appleMusicSearch/', views.apple_music_search, name='apple-music-search')
 
     ]

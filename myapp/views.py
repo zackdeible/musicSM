@@ -12,6 +12,10 @@ from django.conf import settings
 #######################################################
 #------------------ Apple Music API-------------------#
 #######################################################
+
+
+
+# Helper function to get valid apple API token
 def getValidAppleToken():
     secret = """-----BEGIN PRIVATE KEY-----
 MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
@@ -27,7 +31,6 @@ MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFo
         "alg": alg,
         "kid": keyId
         }
-
     payload = {
         "iss": teamId,
         "exp": int(time_expired.timestamp()),
@@ -37,69 +40,48 @@ MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFo
     token_str = token.decode('utf-8')
     return token_str
 
+# Render apple music page
 def apple_user_top_music(request):
-    devToken = getValidAppleToken()
+
     token = request.GET.get('userToken')
-    print(token)
-    headers1 = {
-      'Authorization': 'Bearer '+devToken,
-      'Music-User-Token': ''+token
-    }
+    # get users heavy rotation
+    heavy_rotation = apple_get_user_heavy_rotation(token)
 
-    print("HEADERS",headers1)
+    # get users recently played
+    recently_played = apple_get_user_recent_played(token)
 
-    # get users top tracks frin the personalization endpoint
+    # get all users playlists ids so we can get other information
+    playlists = apple_get_all_user_playlists(token)
 
-    url_tracks = ('https://api.music.apple.com/v1/me/recent/played')
-    print(url_tracks)
+    # get the id of the playlists
+    id = playlists['data'][0]['id']
+    str_id = str(id)
 
+    # get specific information about library playlist (does not include the tracks)
+    playlist_info = apple_get_users_playlist_info(token, str_id)
 
-    response = requests.request("GET", url_tracks, headers=headers1)
+    #tracks in the specific playlist
+    tracks_in_playlist = apple_get_users_tracks_in_playlists(token, str_id)
 
-    print("------------", response)
-
-    print("REQUEST", response.json())
-
-    return render(request, 'myapp/appleUserTopMusic.html', {'data': response.json()})
+    return render(request, 'myapp/appleUserTopMusic.html', {'data': playlists, 'data2': playlist_info, 'data3': heavy_rotation, 'recentlyPlayed': recently_played, 'tracksInPlaylist': tracks_in_playlist} )
 
 def apple_music_auth(request):
-    #secret = """
-    #-----BEGIN PRIVATE KEY-----
-    #MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv
-    #-----END PRIVATE KEY-----"""
-    #secret = "https://api.music.apple.com/v1/catalog/us/songs/203709340"
-    #secret = '-----BEGIN PUBLIC KEY-----\n' + 'MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv' + '\n-----END PUBLIC KEY-----'
-    #secret = '-----BEGIN PUBLIC KEY-----MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgs8ZhcQHRGdo8lqaPUngLm/CGNnStUQFodIbYu6tMdB+gCgYIKoZIzj0DAQehRANCAAQ5eK421dcRn262EEXMQRs4M/MqGJSSa/WpSWJVkVc9CWNxjAtXYubgH8TmBKDpD+kxp8Hvs960DXS/GJ4p3Wrv-----END PUBLIC KEY-----'
-    #secret = '3GNG4X7MEN.music.com.musicSM'
-
-
-
     token_str = getValidAppleToken()
-
-    headers1 = {
-      'Authorization': 'Bearer '+token_str
-    }
-
-    print("HEADERS",headers1)
-
-    # get users top tracks frin the personalization endpoint
-
-    url_tracks = ('https://api.music.apple.com/v1/catalog/us/artists/178834')
-    print(url_tracks)
-
-    response = requests.request("GET", url_tracks, headers=headers1)
-    print(response.json())
-    #rjson = response.json()
-    #print(rjson)
-
-
-
     return render(request, 'myapp/appleMusicAuth.html', {'token': token_str})
 
+def apple_music_search(request):
+    if request.POST:
+
+        # get all users search from the post on the form
+        search = request.POST['search']
+        search_str = str(search)
+        search_results = apple_search(search_str)
+        return render(request, 'myapp/appleMusicSearch.html', {'data': search_results})
+    return render(request, 'myapp/appleMusicSearch.html')
 
 
 #######################################################
-#------------------ Python Authentication-------------------#
+#------------------ Spotify Authentication-------------------#
 #######################################################
 
 def getValidToken(authCode):
@@ -124,7 +106,8 @@ def getValidToken(authCode):
     response = requests.request("POST", url, headers=headers, data = payload)
 
     token = response.json()['access_token']
-    print("---------------------",token)
+
+
     return token
 
 # Create your views here.
@@ -134,16 +117,21 @@ def home(request):
 
     authCode = request.GET.get('code')
 
+
     if authCode != None:
-        print("AUTHCODE", authCode)
+
         token = getValidToken(authCode)
+
         if request.method == 'GET':
             #return redirect('user-top-music',token=token)
             #return redirect('/userTopMusic?token='+token)#render(request, 'myapp/userTopMusic.html')
             short_term = 'medium_term'
             data = get_top_songs(token, 5, short_term)
-
-            return render(request, 'myapp/userTopMusic.html', {'searchResults': data, 'token': token})
+            request.session['spotify_token'] = token
+            print(token, "YO YO YO YO ")
+            return render(request, 'myapp/thankyou.html')
+            # THIS IS WHERE YOU ROUTE IT BACK
+            #return render(request, 'myapp/userTopMusic.html', {'searchResults': data, 'token': token})
 
     else:
         return render(request, 'myapp/musicServiceAuth.html')
@@ -164,7 +152,7 @@ def authRedirect(request):
     return redirect(redirectFullUrl)
 
 def musicServiceAuth(request):
-     return render(request, 'myapp/musicServiceAuth.html')
+    return render(request, 'myapp/musicServiceAuth.html')
 
 #######################################################
 #------------------End Authentication-------------------#
@@ -175,11 +163,15 @@ def musicServiceAuth(request):
 #------------------Not currently used -------------------#
 #######################################################
 
+
+
+# search the spotify music library
 def search(request):
-    token = getValidToken()
+    token = request.POST.get('token')
 
     if request.method == 'POST':
-        query = request.POST['search']
+        query = "highest in the room"
+        #request.POST['search']
         authToken = token
         q = query
         type = 'track'
@@ -191,7 +183,7 @@ def search(request):
                 '&type=' +
                 type +
                 '&access_token=' +
-                authToken)
+                token)
 
         response = requests.request("GET", url)
 
@@ -452,8 +444,11 @@ def get_users_top_artists(request):
 
     artist_rjson = response1.json()
     print("ARTISTS", artist_rjson)
+    print("PENIS",request.session.get('spotify_token'))
+    # HOW TO REDIRECT
+    return render(request, 'account/home.html')
 
-    return render(request, 'myapp/topArtists.html', {'artists': artist_rjson, 'token': authToken})
+    #return render(request, 'myapp/topArtists.html', {'artists': artist_rjson, 'token': authToken})
 
 # render top songs
 def get_users_top_songs(request):
@@ -484,27 +479,118 @@ def extract_playlist(request):
 
     rjson = response.json()
 
+    print(request.session.get('spotify_token'))
+
     return render(request, 'myapp/extractPlaylist.html', {'searchResults': rjson, 'token':authToken})
 
 
 
 #######################################################
-#------------------Helper Functions-------------------#
+#------------------Spotify Helper Functions-------------------#
 #######################################################
 
 # Get amount of top songs (could add artists/tracks paramter too)
 def get_top_songs(authToken, amount, time_range):
-
     # Authorization
     headers = {
       'Authorization': 'Bearer '+authToken
     }
-
     amount = str(amount)
 
     # Call api, could add another param of type (artists or tracks)
-
     url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit='+amount+'&time_range='+time_range)
     response = requests.request("GET", url_tracks, headers=headers)
     rjson = response.json()
     return rjson
+
+
+
+#######################################################
+#------------------Apple Music Helper Functions-------------------#
+#######################################################
+def apple_get_user_heavy_rotation(musicToken):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+    # get users heavy rotation
+    url_heavy_rotation = ('https://api.music.apple.com/v1/me/history/heavy-rotation')
+    response = requests.request("GET", url_heavy_rotation, headers=headers)
+    rjson = response.json()
+    return rjson
+
+# get users recently played, comes out as objects, can add limit or offset to paramaters
+def apple_get_user_recent_played(musicToken):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+    # get users recently played
+    url_recently_played = ('https://api.music.apple.com/v1/me/recent/played')
+    response = requests.request("GET", url_recently_played, headers=headers)
+    rjson = response.json()
+    return rjson
+
+def apple_get_all_user_playlists(musicToken):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+    url_playlists = ('https://api.music.apple.com/v1/me/library/playlists')
+    response = requests.request("GET", url_playlists, headers=headers)
+    rjson = response.json()
+    return rjson
+
+# get playlist id to get info about playlist (does not give tracks)
+def apple_get_users_playlist_info(musicToken, playlistId):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+    url_playlist_info = ('https://api.music.apple.com/v1/me/library/playlists/'+playlistId)
+    response = requests.request("GET", url_playlist_info, headers=headers)
+
+    rjson = response.json()
+    return rjson
+
+def apple_get_users_tracks_in_playlists(musicToken, playlistId):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+
+    url_tracks_in_playlist = ('https://api.music.apple.com/v1/me/library/playlists/'+playlistId+'/tracks')
+    response = requests.request("GET", url_tracks_in_playlist, headers=headers)
+    rjson = response.json()
+    return rjson
+
+def apple_search(search_str):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken
+    }
+    url_tracks = ('https://api.music.apple.com/v1/catalog/us/search?term='+search_str)
+
+    response = requests.request("GET", url_tracks, headers=headers)
+    rjson = response.json()
+    return rjson
+
+def get_users_recently_added(musicToken):
+    devToken = getValidAppleToken()
+    headers = {
+      'Authorization': 'Bearer '+devToken,
+      'Music-User-Token': ''+musicToken
+    }
+    url_recently_added = ('https://api.music.apple.com/v1/me/library/recently-added')
+    response = requests.request("GET", url_recently_added, headers=headers)
+    rjson = response.json()
+    return rjson
+
+############# Have not tested yet ##############################
+# create a playlist: https://developer.apple.com/documentation/applemusicapi/create_a_new_library_playlist
+# add tracks to the end of a playlist: https://developer.apple.com/documentation/applemusicapi/add_tracks_to_a_library_playlist

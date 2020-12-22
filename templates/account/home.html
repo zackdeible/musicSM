@@ -5,69 +5,92 @@
 
 {% block links %}
 <!-- PUT ANY CSS LINKS IN HERE -->
-<link rel="stylesheet" type="text/css" href="{% static "css/trackRow.css" %}">
+
 {% endblock links %}
 
 
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
-
-
-
-  <!-- Hero Section -->
-<div id="SVGheroComponents" class="svg-preloader bg-success position-relative overflow-hidden">
-  <!-- Content -->
-  <div class="container position-relative space-3 space-top-md-5 space-lg-4 z-index-2">
-    <!-- Title -->
-    <div class="text-center mb-7">
-      <div class="w-lg-80 mx-auto">
-        <h1 class="display-4 font-size-md-down-5 text-white mb-3">Say <span class="font-weight-semi-bold">Hello</span> to all businesses</h1>
+<!-- User Profile Section -->
+<div class="container">
+  <div class="border-bottom w-md-75 w-lg-60 space-2 mx-md-auto">
+    <div class="media d-block d-sm-flex">
+      <div class="u-xl-avatar position-relative mb-3 mb-sm-0 mr-4">
+        <img class="img-fluid rounded-circle" src="{% static "assets/img/160x160/img35.jpg" %}" alt="Image Description">
+        <img class="bg-white position-absolute bottom-0 right-0 rounded-circle p-1" src="{% static "assets/svg/components/top-vendor.svg" %}" alt="Icon" width="36" height="36" title="Top Writer">
       </div>
-      <div class="w-md-80 w-lg-60 mx-auto">
-        <p class="lead text-white-70">Achieve virtually any design and layout from within the one template. Attract more visitors, and win more business with Front template.</p>
+
+      <div class="media-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="h3 font-weight-medium">{{ data.name }}</h1>
+          <div class="d-block">
+            <a type="button" href="{% url 'createPost' %}" class="btn btn-xs btn-soft-primary font-weight-medium text-nowrap transition-3d-hover ml-1">Create Post</a>
+            <a type="button" href="{% url 'editProfile' %}" class="btn btn-icon btn-sm btn-soft-secondary btn-bg-transparent ml-1" data-toggle="tooltip" data-placement="top" title="Edit Profile">
+              <small class="far fa-flag" ></small>
+            </a>
+          </div>
+        </div>
+
+        <div class="row text-secondary font-size-1 mb-2">
+          <div class="col-auto">
+            <span class="h6 font-weight-semi-bold">{{ data.follower }}</span>
+            <span>Followers</span>
+          </div>
+          <div class="col-auto">
+            <span class="h6 font-weight-semi-bold">{{ data.following }}</span>
+            <span>Following</span>
+          </div>
+        </div>
+
+        <p class="mb-0">{{ data.description }}</p>
       </div>
     </div>
-    <!-- End Title -->
 
-    <!-- Subscribe Form -->
-    <form class="js-validate w-md-50 w-lg-40 mx-auto">
-      <label class="sr-only" for="heroSubscribeSrEmail">Enter your email address</label>
-      <div class="input-group input-group-lg input-group-borderless input-group-pill">
-        <input type="email" class="form-control" name="email" id="heroSubscribeSrEmail" placeholder="Enter your email address" aria-label="Enter your email address" aria-describedby="heroSubscribeButton" required>
-        <div class="input-group-append">
-          <button class="btn btn-white text-success" type="button" id="heroSubscribeButton">
-            <span class="fas fa-paper-plane"></span>
-          </button>
-        </div>
-      </div>
-    </form>
-    <!-- End Subscribe Form -->
+    <<h4>Top Music</h4>
+    <a class="ml-2" href="{% url 'generateTopSongs' %}">Generate Top Songs</a>
+    <a class="ml-2" href="{% url 'searchSongs' %}">Custom Top Songs</a>
+
+
+    <h4>My Posts:</h4>
+    {% for post in data.posts %}
+
+    <ul class="list-group bg-transparent">
+      <li class="list-group-item bg-transparent">
+        <div class="row d-flex flex-wrap align-items-center">
+          <div class="col-8 col-lg-9">
+            <div class="row">
+              <div class="col ml-6">
+                <a>{{ post.content }}</a>
+              </div>
+              <div class="col ml-6">
+                 <iframe src="{{ post.subject }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+              </div>
+
+            </div>
+          </div>
+
+      </li>
+
+    </ul>
+    {% endfor %}
   </div>
-  <!-- End Content -->
-
-  <!-- SVG Top Left Shapes -->
-  <figure class="position-absolute top-0 left-0 w-60 ie-double-ellipse-top-left">
-    <img class="js-svg-injector" src="{% static "assets/svg/components/double-ellipse-top-left.svg" %}" alt="Image Description"
-         data-parent="#SVGheroComponents">
-  </figure>
-  <!-- End SVG Top Left Shapes -->
-
-  <!-- SVG Bottom Right Shapes -->
-  <figure class="position-absolute right-0 bottom-0 w-15 ie-double-ellipse-bottom-right">
-    <img class="js-svg-injector" src="{% static "assets/svg/components/double-ellipse-bottom-right.svg" %}" alt="Image Description"
-         data-parent="#SVGheroComponents">
-  </figure>
-  <!-- End SVG Bottom Right Shapes -->
-
-  <!-- SVG Bottom Shape -->
-  <figure class="position-absolute right-0 bottom-0 left-0">
-    <img class="js-svg-injector" src="{% static "assets/svg/components/curved-1.svg" %}" alt="Image Description"
-         data-parent="#SVGheroComponents">
-  </figure>
-  <!-- End SVG Bottom Shape -->
 </div>
-<!-- End Hero Section -->
+<!-- End User Profile Section -->
+
+<div class="container">
+  <a class="ml-2" href="{% url 'users' %}">Search Users</a>
+  <a class="ml-2" href="{% url 'feed' %}">Feed</a>
+  <form class="" action="/" method="post">
+    {% csrf_token %}
+    <input type="submit" name="" value="Top Songs">
+  </form>
+
+
+</div>
+
+
+
 
 
 
@@ -79,26 +102,4 @@
 {% block scripts %}
 <!-- PUT JS LINKS IN HERE -->
 
-<!-- JS Implementing Plugins -->
-<script src="{% static "assets/vendor/svg-injector/dist/svg-injector.min.js" %}"></script>
-
-<!-- JS Front -->
-<script src="{% static "assets/js/components/hs.svg-injector.js" %}"></script>
-
-<!-- JS Plugins Init. -->
-<script>
-  $(window).on('load', function () {
-    // initialization of svg injector module
-    $.HSCore.components.HSSVGIngector.init('.js-svg-injector');
-  });
-</script>
-
-  <script type="text/javascript">
-    function playPreview(url) {
-      new Audio(url).play();
-
-
-    }
-
-  </script>
 {% endblock scripts %}

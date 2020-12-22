@@ -1,0 +1,54 @@
+{% extends "front.html" %}
+
+{% load static %}
+
+
+{% block links %}
+<!-- PUT ANY CSS LINKS IN HERE -->
+{% endblock links %}
+
+
+
+{% block body %}
+<!-- PUT YOUR BODY IN HERE -->
+<div class="container">
+  <h1>Feed</h1>
+  {% for post in feed %}
+  {% for p in post %}
+
+  <ul class="list-group bg-transparent">
+    <li class="list-group-item bg-transparent">
+      <div class="row d-flex flex-wrap align-items-center">
+        <div class="col-8 col-lg-9">
+          <div class="row">
+            <div class="col ml-6">
+              <a>{{ p.content }}</a>
+            </div>
+            <div class="col ml-6">
+               <iframe src="{{ p.subject }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </div>
+
+          </div>
+        </div>
+
+    </li>
+
+  </ul>
+  {% endfor %}
+  {% endfor %}
+
+  <a class="ml-2" href="{% url 'users' %}">Search Users</a>
+  <a class="ml-2" href="{% url 'home' %}">Home</a>
+
+</div>
+
+
+
+{% endblock body %}
+
+
+
+
+{% block scripts %}
+<!-- PUT JS LINKS IN HERE -->
+{% endblock scripts %}
