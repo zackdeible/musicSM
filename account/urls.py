@@ -17,6 +17,7 @@ urlpatterns = [
     path('feed/', views.feed, name='feed'),
     path('generateTopSongs/', views.generate_top_songs, name='generateTopSongs'),
     path('searchSongs/', views.search_songs, name='searchSongs'),
-    path('search/', views.search, name='search')
+    path('search/', views.search, name='search'),
+    path('viewProfile/', views.view_profile, name='viewProfile')
 
 ]

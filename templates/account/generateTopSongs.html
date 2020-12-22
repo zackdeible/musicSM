@@ -11,6 +11,8 @@
 
 {% block body %}
 <!-- PUT YOUR BODY IN HERE -->
+<h1>{{ data }}</h1>
+
 <h4>Edit Description</h4>
 <form class="" action="/account/changeDescription/" method="post">
   {% csrf_token %}

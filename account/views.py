@@ -174,8 +174,11 @@ def change_description(request):
 
 
 def create_post(request):
-    print(request.session.get("test"))
-    return render(request, 'account/createPost.html')
+    try:
+        embed_link = iFrame_generate(request.POST['url'])
+        return render(request, 'account/createPost.html', {'link': embed_link})
+    except:
+        return render(request, 'account/createPost.html')
 
 def save_post(request):
     cur_user = request.user
@@ -187,7 +190,6 @@ def save_post(request):
         redirect('home')
 
     return redirect('home')
-
 
 # display the feed
 def feed(request):
@@ -216,15 +218,25 @@ def generate_top_songs(request):
 
     token = request.session.get('spotify_token')
 
-    url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term')
+    # url_tracks = ('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term')
+    #
+    # headers = {
+    #   'Authorization': 'Bearer '+token
+    # }
+    #
+    #
+    # print("ayy", token)
+    amount = 50
+    time_range = 'medium_term'
 
-    headers = {
-      'Authorization': 'Bearer '+token
+    top_artists = spotify_get_top(token, 'artists', amount, time_range)
+    top_tracks = spotify_get_top(token, 'tracks', amount, time_range)
+    
+    data = {
+        'top_artists': top_artists,
+        'top_tracks': top_tracks
     }
-
-
-    print("ayy", token)
-    return render(request, 'account/generateTopSongs.html')
+    return render(request, 'account/generateTopSongs.html', {'data': data})
 
 
 def search_songs(request):
@@ -281,6 +293,36 @@ def search(request):
 
     #return render(request, '/search.html', {'searchResults':rjson, 'playlists': playlist})
 
+def view_profile(request):
+    # how to get data from db example: data = Playlist.objects.filter(users=current_user)
+
+    cur_user = request.user
+
+
+    v_user = request.POST['v_user']
+
+    v_username = User.objects.get(username=v_user)
+    profile = Profile.objects.get(user=v_username.id)
+
+    follower_count = profile.follower.all().count()
+    following_count = profile.following.all().count()
+
+    description = profile.description
+    if description == '':
+        description = "These dumbasses dont have a description"
+
+    posts = Post.objects.all().filter(user_id=v_username.id)
+
+
+    data = {
+        'follower': follower_count,
+        'following': following_count,
+        'description': description,
+        'name': v_user,
+        'profile': profile,
+        'posts': posts
+    }
+    return render(request, 'account/viewProfile.html', {'data': data})
 
 ############### ---------------- iFrame Function -------------- #############
 def iFrame_generate(url):
@@ -290,3 +332,20 @@ def iFrame_generate(url):
 
     str = "https://open.spotify.com/embed/"+type+"/"+code
     return str
+
+
+
+############### ---------------- Spotify Helper Functions -------------- #############
+# Get amount of top songs (could add artists/tracks paramter too)
+def spotify_get_top(token, type, amount, time_range):
+    # Authorization
+    headers = {
+      'Authorization': 'Bearer '+token
+    }
+    amount = str(amount)
+
+    # Call api, could add another param of type (artists or tracks)
+    url_tracks = ('https://api.spotify.com/v1/me/top/'+type+'?limit='+amount+'&time_range='+time_range)
+    response = requests.request("GET", url_tracks, headers=headers)
+    rjson = response.json()
+    return rjson
